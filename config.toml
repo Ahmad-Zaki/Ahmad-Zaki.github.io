@@ -9,6 +9,8 @@ defaultContentLanguage = "en"
 # language code
 languageCode = 'en-us'
 
+publishDir = "docs"
+
 [languages]
   [languages.en]
     weight = 1
