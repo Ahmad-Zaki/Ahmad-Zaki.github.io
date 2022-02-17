@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Data Resampling - Tag - Something I learned</title>
+        <link>https://Ahmad-Zaki.github.io/tags/data-resampling/</link>
+        <description>Data Resampling - Tag - Something I learned</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Sat, 20 Nov 2021 21:05:36 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/tags/data-resampling/" rel="self" type="application/rss+xml" /><item>
+    <title>؟Imbalanced Datasets كيف نتعامل مع</title>
+    <link>https://Ahmad-Zaki.github.io/imbalanced-datasets-%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9/</link>
+    <pubDate>Sat, 20 Nov 2021 21:05:36 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/imbalanced-datasets-%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9/</guid>
+    <description><![CDATA[<div dir="rtl">
+    <h4>
+        من المشاكل الى قابلتها في الكورسات إن الـdataset أحياناً بتكون خالية من العيوب الى ممكن نلاقيها في أرض الواقع، وفي مجال الـclassification، فيه فرصة كبيرة إننا نتعامل مع imbalanced datasets لإن الأكيد إن مش كل الـclasses بتحدث بنفس النسبة وبالتالي الغير طبيعي هو إن لما أجمع data أشوف كل الـclasses بنفس الrate ، لكن ليه الـimbalance ده ممكن يسبب مشكلة أصلا؟
+    </h4>
+</div>]]></description>
+</item></channel>
+</rss>
