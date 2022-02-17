@@ -4,7 +4,18 @@
         <link>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</link>
         <description>مما تعلمت - Category - Something I learned</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
-            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Sat, 20 Nov 2021 21:05:36 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/" rel="self" type="application/rss+xml" /><item>
+    <title>Regularizationمن الـ Biasلماذا نستثني الـ</title>
+    <link>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</link>
+    <pubDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</guid>
+    <description><![CDATA[<div dir="rtl">
+    <h4>
+        الـregularization هو أحد الحلول الشائعة لمشكلة الـoverfitting، بيتم عن طريق إضافة penalty مباشرة على الـparameters في الـcost function عشان أقلل الـmodel complexity، لكن لو لاحظت هتلاقي إن الـbias مش موجود في الـpenalty دى على الرغم من إنه أحد الـparameters الى الموديل بيتعلمها، ايه السبب؟
+    </h4>
+</div>]]></description>
+</item><item>
     <title>؟Imbalanced Datasets كيف نتعامل مع</title>
     <link>https://Ahmad-Zaki.github.io/imbalanced-datasets-%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9/</link>
     <pubDate>Sat, 20 Nov 2021 21:05:36 &#43;0200</pubDate>

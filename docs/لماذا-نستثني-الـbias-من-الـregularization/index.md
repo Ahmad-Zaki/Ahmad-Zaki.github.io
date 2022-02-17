@@ -1,16 +1,5 @@
----
-title: "Regularizationمن الـ Biasلماذا نستثني الـ"
-subtitle: "ولماذا نحتاجه في الموديل"
-#description: <descriptive text here>
-date: 2021-11-30T16:46:33+02:00
-draft: false
-toc: false
-image: ""
-featuredImage: ""
-featuredImagePreview: "lib/img/linear regression with bias term (right) vs with no bias term (left).JPG"
-tags: [Machine Learning, Bias, Regularization, Linear Regression]
-categories: [مما تعلمت]
----
+# Regularizationمن الـ Biasلماذا نستثني الـ
+
 
 <div dir="rtl">
     <h4>

@@ -174,7 +174,7 @@ publishDir = "docs"
       social = true
 
       # disclaimer (HTML format is supported)
-      disclaimer = "Welcome to my blog 'Something I learned', where I share some of the stuff that I learned, talk about other stuff that I like. Hopefully, you may find something useful in these articles as well."
+      disclaimer = "Welcome to my blog 'Something I learned', where I share some of the stuff that I learned, and talk about other stuff that I like. Hopefully, you may find something useful in these articles as well."
 
     # Home page posts
     [params.home.posts]

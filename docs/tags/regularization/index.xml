@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Regularization - Tag - Something I learned</title>
+        <link>https://Ahmad-Zaki.github.io/tags/regularization/</link>
+        <description>Regularization - Tag - Something I learned</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/tags/regularization/" rel="self" type="application/rss+xml" /><item>
+    <title>Regularizationمن الـ Biasلماذا نستثني الـ</title>
+    <link>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</link>
+    <pubDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</guid>
+    <description><![CDATA[<div dir="rtl">
+    <h4>
+        الـregularization هو أحد الحلول الشائعة لمشكلة الـoverfitting، بيتم عن طريق إضافة penalty مباشرة على الـparameters في الـcost function عشان أقلل الـmodel complexity، لكن لو لاحظت هتلاقي إن الـbias مش موجود في الـpenalty دى على الرغم من إنه أحد الـparameters الى الموديل بيتعلمها، ايه السبب؟
+    </h4>
+</div>]]></description>
+</item></channel>
+</rss>
