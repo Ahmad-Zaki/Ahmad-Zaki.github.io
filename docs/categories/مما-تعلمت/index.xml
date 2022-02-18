@@ -4,8 +4,19 @@
         <link>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</link>
         <description>مما تعلمت - Category - Something I learned</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
-            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/" rel="self" type="application/rss+xml" /><item>
-    <title>Regularizationمن الـ Biasلماذا نستثني الـ</title>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/" rel="self" type="application/rss+xml" /><item>
+    <title>؟Vanishing gradientsكيف نتعامل مع مشكلة الـ</title>
+    <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/</link>
+    <pubDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/</guid>
+    <description><![CDATA[<div dir="rtl">
+    <h4>
+        الـVanishing Gradients هي أحد اكبر المشاكل الى أثرت على تطوّر الـneural networks لفترة طويلة، وبسببها كان تدريب الـdeep neural networks عملية صعبة وبتستغرق وقت كبير، لكن إيه السبب وراء المشكلة دى؟
+    </h4>
+</div>]]></description>
+</item><item>
+    <title>؟Regularizationمن الـ Biasلماذا نستثني الـ</title>
     <link>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</link>
     <pubDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</pubDate>
     <author>Author</author>

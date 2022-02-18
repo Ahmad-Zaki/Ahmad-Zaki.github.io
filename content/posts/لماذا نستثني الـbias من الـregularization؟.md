@@ -1,5 +1,5 @@
 ---
-title: "Regularizationمن الـ Biasلماذا نستثني الـ"
+title: "؟Regularizationمن الـ Biasلماذا نستثني الـ"
 subtitle: "ولماذا نحتاجه في الموديل"
 #description: <descriptive text here>
 date: 2021-11-30T16:46:33+02:00

@@ -1,4 +1,4 @@
-# Regularizationمن الـ Biasلماذا نستثني الـ
+# ؟Regularizationمن الـ Biasلماذا نستثني الـ
 
 
 <div dir="rtl">

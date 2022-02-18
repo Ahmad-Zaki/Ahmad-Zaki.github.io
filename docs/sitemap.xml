@@ -2,16 +2,26 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/batch-normalization/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/categories/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/deep-learning/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/elu/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/keras/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/leaky-relu/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/machine-learning/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/neural-networks/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/posts/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/sigmoid/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/tanh/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/vanishing-gradient/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/bias/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/categories/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/linear-regression/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/machine-learning/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/posts/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/regularization/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</loc><lastmod>2021-11-30T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/accurace/</loc><lastmod>2021-11-20T21:05:36&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/cost-sensitive-training/</loc><lastmod>2021-11-20T21:05:36&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/data-analysis/</loc><lastmod>2021-11-20T21:05:36&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
@@ -22,7 +32,5 @@
             <loc>https://Ahmad-Zaki.github.io/tags/recall/</loc><lastmod>2021-11-20T21:05:36&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/smote/</loc><lastmod>2021-11-20T21:05:36&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/imbalanced-datasets-%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9/</loc><lastmod>2021-11-20T21:05:36&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/deep-learning/</loc><lastmod>2021-11-13T11:11:45&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/neural-networks/</loc><lastmod>2021-11-13T11:11:45&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/%D9%84%D9%8A%D9%87-%D8%A3%D8%B5%D8%A8%D8%AD%D8%AA-%D8%A7%D9%84%D9%80relu-%D8%A7%D9%84%D8%AE%D9%8A%D8%A7%D8%B1-%D8%A7%D9%84%D8%B4%D8%A7%D8%A6%D8%B9-%D9%84%D9%84%D9%80activation-function/</loc><lastmod>2021-11-13T11:11:45&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/%D9%84%D9%8A%D9%87-%D8%A8%D9%86%D8%AD%D8%AA%D8%A7%D8%AC-non-linear-activation-functions-%D9%81%D9%8A-%D8%A7%D9%84%D9%80neural-networks/</loc><lastmod>2021-11-09T13:08:51&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url></urlset>

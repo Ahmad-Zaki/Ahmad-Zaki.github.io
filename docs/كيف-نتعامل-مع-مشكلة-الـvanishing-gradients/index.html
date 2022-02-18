@@ -1,0 +1,313 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>؟Vanishing gradientsكيف نتعامل مع مشكلة الـ - Something I learned</title><meta name="Description" content=""><meta property="og:title" content="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ" />
+<meta property="og:description" content="
+    
+        الـVanishing Gradients هي أحد اكبر المشاكل الى أثرت على تطوّر الـneural networks لفترة طويلة، وبسببها كان تدريب الـdeep neural networks عملية صعبة وبتستغرق وقت كبير، لكن إيه السبب وراء المشكلة دى؟
+    
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" /><meta property="og:image" content="https://Ahmad-Zaki.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2021-12-14T16:46:33+02:00" />
+<meta property="article:modified_time" content="2021-12-14T16:46:33+02:00" /><meta property="og:site_name" content="Something I learned" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://Ahmad-Zaki.github.io/logo.png"/>
+
+<meta name="twitter:title" content="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ"/>
+<meta name="twitter:description" content="
+    
+        الـVanishing Gradients هي أحد اكبر المشاكل الى أثرت على تطوّر الـneural networks لفترة طويلة، وبسببها كان تدريب الـdeep neural networks عملية صعبة وبتستغرق وقت كبير، لكن إيه السبب وراء المشكلة دى؟
+    
+"/>
+<meta name="application-name" content="مما تعلمت">
+<meta name="apple-mobile-web-app-title" content="مما تعلمت"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" /><link rel="prev" href="https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "؟Vanishing gradientsكيف نتعامل مع مشكلة الـ",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Ahmad-Zaki.github.io\/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients\/"
+        },"genre": "posts","keywords": "Machine Learning, Deep Learning, Vanishing Gradient, Neural Networks, Batch Normalization, Keras, Leaky ReLU, ELU, Sigmoid, Tanh","wordcount":  992 ,
+        "url": "https:\/\/Ahmad-Zaki.github.io\/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients\/","datePublished": "2021-12-14T16:46:33+02:00","dateModified": "2021-12-14T16:46:33+02:00","publisher": {
+            "@type": "Organization",
+            "name": "Ahmad Zaki"},"author": {
+                "@type": "Person",
+                "name": "Ahmad Zaki"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Something I learned"><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><a class="menu-item" href="/about/" title="Know more about me!"> About </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Look for an article" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Something I learned"><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Look for an article" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a class="menu-item" href="/about/" title="Know more about me!">About</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">؟Vanishing gradientsكيف نتعامل مع مشكلة الـ</h1><h2 class="single-subtitle">ما أسبابها وما حلولها؟</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Ahmad Zaki</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/"><i class="far fa-folder fa-fw"></i>مما تعلمت</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2021-12-14">2021-12-14</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;992 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;5 minutes&nbsp;</div>
+        </div><div class="content" id="content"><div dir="rtl">
+    <h4>
+        الـVanishing Gradients هي أحد اكبر المشاكل الى أثرت على تطوّر الـneural networks لفترة طويلة، وبسببها كان تدريب الـdeep neural networks عملية صعبة وبتستغرق وقت كبير، لكن إيه السبب وراء المشكلة دى؟
+    </h4>
+</div>
+<p align="center">
+    <img src="/lib/img/vanishing gradients problem.png" alt="vanishing gradients problem"/>
+    <br>
+    Fig 1: Vanishing gradients.
+    <br> 
+    Source: <a href="https://codeodysseys.com/posts/gradient-calculation/">Click here</a> 
+</p>
+<div dir="rtl">
+    <h4>
+        أحد أسباب المشكلة هو الـrandom weights initialization عن طريق normal distribution الـmean بتاعه صفر والـvariance واحد، استخدام الطريقة دى مع activation function زى sigmoid أو tanh كان يؤدي إلى إن الـoutput variance في كل layer يكون أكبر من الـinput variance، ده كان بيسبّب إن الـsigmoid في الـlayers الآخيرة توصل للـsaturation (لاحظ Figure 2)، فيصبح الـgradient صغير جداً أو بصفر، بالتالي في الـbackpropagation مش هقدر أعمل updates والـlearning هياخد وقت كبير وممكن يتوقف تماماً.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/Sigmoid function saturation regions.jpg" alt="Sigmoid function saturation regions"/>
+        <br>
+        Fig 2: Sigmoid function saturation regions.
+    </p>
+    <h4>
+        في Paper لـXavier Glorot، قال إن عشان نساوي الـinput variance والـoutput variance لازم يكون عدد الـinputs والـoutputs متساوي، لكنه قدم حل آخر يعوّض الشرط ده وهو الـGlorot initialization.
+        <br>
+        (<bdo dir="ltr">$fan_{out}$, $fan_{in}$</bdo> هو عدد الـinput neurons والـoutput neurons على الترتيب):
+    </h4>
+</div>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>Glorot Initialization<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>$\text{Where } fan_{avg} = (fan_{in} + fan_{out}/2), \text{ initialize weights with:}$</p>
+<ul>
+<li>
+<p>$\text{Normal Distribution with mean 0 and variance } \sigma^2 = \frac{1}{fan_{avg}}$</p>
+</li>
+<li>
+<p>$\text{Or a uniform distribution between -r and +r with } r = \sqrt{\frac{3}{fan_{avg}}}$</p>
+</li>
+</ul>
+</div>
+        </div>
+    </div>
+<div dir="rtl">
+    <h3>
+        طيب المشكلة دى ظهرت بسبب الـsaturation في sigmoid و tanh، هل ممكن احلها لو استخدمت ReLU؟
+    </h3>
+    <h4>
+        الـReLU بتحل المشكلة دى في الجزء الموجب، لكنها بتقدم مشكلة جديدة بسبب الجزء السالب; لإن لو كان الـinput بتاعها سالب هيكون الـoutput صفر، وكمان الـgradient صفر، فـ مش هيحصل update للـweights، وبالتالي في الـstep الجاية هيظل الـouput والـgradient صفر، هنا يقال إن الـneurons are dead: لإن مش هيحصل updates عندهم على الإطلاق.
+    </h4>
+    <h4>
+        الحل المباشر للمشكلة هو إننا نضيف قيمة للـfunction في الجزء السالب، فممكن نلجأ للـLeaky ReLU (موضحة في Figure 3); وفيها بنضيف ميل صغير جداً للـReLU في الجزء السالب، الميل ده إما يكون hyper parameter أنا الى بحدده، أو يكون رقم عشوائي في كل step (تُسمّى Randomized Leaky ReLU) وده بيضيف نوع من الـregularization على الـnetwork، أو يكون parameter بتتعلمه الـnetwork (تُسمّى Parametric Leaky ReLU) وده بيدي الـNetwork حرية أكبر، لكن ممكن يسبب overfitting لو الـdataset مش كبيرة بشكل كافي.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/leaky ReLU.jpg" alt="leaky ReLU"/>
+        <br>
+        Fig 3: Leaky ReLU activation function.
+    </p>
+    <h4>
+        وممكن نلجأ للـELU (موضّحة في Figure 4): وفيها الجزء السالب من الـReLU بياخد شكل الـexponential function، ورغم إنها ابطأ من الـReLU في الحساب، لكنها بتوصل للـconvergence في عدد خطوات أقل، لذلك في الـtraining بشكل عام بتكون اسرع، لكن في الـtesting فالـReLU بالتأكيد أسرع.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/ELU.jpg" alt="leaky ReLU"/>
+        <br>
+        Fig 4: ELU activation function.
+    </p>
+    <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
+    <h4>
+        حتى الآن تعرضنا لبعض حلول الـVanishing gradients عن طريق الـGlorot initialization والـNon saturating activations زى الـReLU ومشتقاتها، لكن الحلول دى بتقيّد تصميم الـnetwork بالشروط الى بحطها على اختيار الـactivation وكمان بتعتمد بشكل كبير على الـinitialization.
+    </h4>
+    <h3>
+        هل ممكن نتفادى القيود دى؟
+    </h3>
+    <h4>
+        أحد الأسباب الى ممكن تؤدى إلى unstable training هو الـInternal Covariate shift: ومعناه إن الـinput distribution الخاص بـlayer معيّنة بيتغير أثناء الـtraining بسبب الـweight update في الـlayers السابقة، الـshift المستمر ده بيأثر على كفاءة الـtraining لإن الـweight update التالي هيحاول يلافي تأثير التغيير في الـweights في الـlayers الى قبله عشان يقدر يوصل للـminimum cost.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/internal covariate shift.png" alt="Internal covariate shift"/>
+        <br>
+        Fig 5: Covariate shift vs. internal covariate shift.
+        <br> 
+        Source: <a href="https://www.diva-portal.org/smash/get/diva2:955562/FULLTEXT01.pdf">Click here</a> 
+    </p>
+    <h4>
+        الحل هنا هو إننا نحاول نثبت الـinput distribution بأكبر شكل ممكن، وده بيتم عن طريق الـBatch normalization: وفيها بنعمل standardization لناتج الـneurons قبل أو بعد الـactivation function بحيث يكون الـdistribution دايماً له نفس الـmean والـvariance بغض النظر عن الـbatch الحالية أو الـweights (لاحظ Figure 6).
+    </h4>
+    <p align="center">
+        <img src="/lib/img/batch norm.jpg" alt="Batch normalization"/>
+        <br>
+        Fig 6: Batch normalization layer. Varying data distributions across batches are normalized.
+        <br> 
+        Source: <a href="https://towardsdatascience.com/understanding-dataset-shift-f2a5a262a766">Click here</a> 
+    </p>
+    <h4>
+        وبجانب الـstandardization كمان بنضيف scale & shift parameters بتتعلمهم الـnetwork عشان تقدر تحدد شكل الـdistribution المناسب لها في الـtraining، وبالتالي ممكن تلغي الـbatch norm بنفسها لو مش هتحتاجه.
+    </h4>
+</div>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>How to perform batch normalization<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>$\text{Input: Values of } x \text{ over a mini-batch: } B =  \{x_{1&hellip;m}\}; \text{  Learned parameters: } \gamma,\beta$</p>
+<p>$\text{Output: } \{ y_i =BN_{\gamma,\beta}(x_i) \}$</p>
+<p>$$
+\mu_{B} = \frac{1}{m}\sum_{i=1}^{m} x_i \hspace{17mm} \Rightarrow \text{mini-batch mean} \newline
+\rule{0mm}{7mm}
+\sigma_B^2 = \frac{1}{m}\sum_{i=1}^{m} (x_i-\mu_{B})^2 \hspace{1cm} \Rightarrow \text{mini-batch variance} \newline
+\rule{0mm}{7mm}
+\hat{x}_i = \frac{x_i-\mu_B}{\sqrt{\sigma_B^2 + \epsilon}}\hspace{16mm} \Rightarrow \text{normalize input} \newline
+\rule{0mm}{5mm}
+y_i = \gamma \hat{x}_i + \beta \hspace{17mm} \Rightarrow \text{scale and shift} \newline
+$$</p>
+</div>
+        </div>
+    </div>
+<div dir="rtl">
+    <h4>
+        ورغم إن فيه خلاف حول موضوع الـinternal covariate shift وتأثيره على الـtraining، ده لا ينفي إن الـBatch normalization طريقة فعالة جداً وبتحسن عملية الـtraining بشكل كبير: دلوقتي الـnetwork أصبحت غير معتمدة بشكل كبير على الـweight initialization زى الأول، وكمان الـdistribution أصبح ثابت تقريباً في كل layer وقللت احتمالية وصول الـinput للـsaturation regions، وبالتالي أقدر أستخدم learning rate أكبر وأسرّع الـtraining أكتر، كمان لو استخدمت الـbatch norm قبل الـactivation function فممكن أستغنى عن الـbias، لإن الـshift parameter الموجود في الـbatch norm يؤدي نفس الوظيفة.
+        <br>
+        وفوق كل ده كمان فالـbatch norm بيضيف نوع من الـregularization على الـnetwork، لإنه بيحسب الـmean والـvariance في كل batch على حدة، وده بيضيف بعض الـnoise على الداتا لإنهم في الغالب مختلفين عن الـmean والـvariance الخاص بتوزيع الداتا بالكامل.
+    </h4>
+    <h3>
+        أثناء الـtraining بقدر احسب الـmean والـvariance على كل batch،ايه الى بيحصل في الـtesting؟
+    </h3>
+    <h4>
+        أثناء الـtraining ممكن نحسب moving average للـmeans والـvariances الخاصة بكل batch عشان تقرّب من الـmean والـvariance الخاص بالـtraining data، وهم دول الى بستخدمهم في الـbatch norm بعد الـtraining، ومع إن الـbatch norm بيأثر على سرعة الـtesting بسبب الحسابات الإضافية، لكن مزاياه بتعّوض التأثير ده، بالإضافة إلى إننا بعد الـtraining ممكن ندمج الـbatch norm parameters مع الـweights الخاصة بالـlayer الى قبله، وبالتالي نقلل الحسابات ونسرّع زمن الـtesting
+    </h4>
+</div>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>How to fuse BN layer with the previous layer<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><p>If the previos layer computes $XW+b$ then BN layer will compute $\gamma \otimes (XW+b-\mu)/\sigma + \beta$ (ignoring the smoothing term $\epsilon$ in the denominator).</p>
+<p>If we define $W'=\gamma \otimes W/\sigma$ and $b'=\gamma \otimes (b-\mu)/\sigma+\beta$, the equation simplifies to $XW'+b'$. So if we replace the previous layer&rsquo;s weights and biases ($W$ and $b$) with the updated weights and biases ($W'$ and $b'$), we can get rid of the BN layer.</p>
+</div>
+        </div>
+    </div>
+<br>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
+<div dir="rtl">
+    <b>
+    لمزيد من المعلومات:
+    </b>
+</div>
+<ul>
+<li><a href="https://www.oreilly.com/library/view/hands-on-machine-learning/9781492032632/" target="_blank" rel="noopener noreffer">Hands-On Machine Learning with Scikit-Learn, Keras, and TensorFlow</a></li>
+<li><a href="http://proceedings.mlr.press/v9/glorot10a/glorot10a.pdf" target="_blank" rel="noopener noreffer">Understanding the difficulty of training deep feedforward neural networks, Xavier Glorot, Yoshua Bengio ; PMLR 9:249–256</a></li>
+<li><a href="https://arxiv.org/pdf/1805.11604.pdf" target="_blank" rel="noopener noreffer">How Does Batch Normalization Help Optimization?</a></li>
+<li><a href="https://towardsdatascience.com/batch-normalization-the-greatest-breakthrough-in-deep-learning-77e64909d81d" target="_blank" rel="noopener noreffer">Batch Normalization: An Incredibly Versatile Deep Learning Tool</a></li>
+<li><a href="https://medium.com/geekculture/batchnormalization-a-technique-that-enhances-training-5d44966c22c0" target="_blank" rel="noopener noreffer">BatchNormalization- a technique that enhances training</a></li>
+<li><a href="https://towardsdatascience.com/implementing-batch-normalization-in-python-a044b0369567" target="_blank" rel="noopener noreffer">Implementing Batch Normalization in Python</a></li>
+<li><a href="https://towardsdatascience.com/understanding-dataset-shift-f2a5a262a766" target="_blank" rel="noopener noreffer">Understanding Dataset Shift</a></li>
+</ul>
+<br>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black"></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2021-12-14</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ" data-hashtags="Machine Learning,Deep Learning,Vanishing Gradient,Neural Networks,Batch Normalization,Keras,Leaky ReLU,ELU,Sigmoid,Tanh"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-hashtag="Machine Learning"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" data-title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/machine-learning/">Machine Learning</a>,&nbsp;<a href="/tags/deep-learning/">Deep Learning</a>,&nbsp;<a href="/tags/vanishing-gradient/">Vanishing Gradient</a>,&nbsp;<a href="/tags/neural-networks/">Neural Networks</a>,&nbsp;<a href="/tags/batch-normalization/">Batch Normalization</a>,&nbsp;<a href="/tags/keras/">Keras</a>,&nbsp;<a href="/tags/leaky-relu/">Leaky ReLU</a>,&nbsp;<a href="/tags/elu/">ELU</a>,&nbsp;<a href="/tags/sigmoid/">Sigmoid</a>,&nbsp;<a href="/tags/tanh/">Tanh</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/" class="prev" rel="prev" title="؟Regularizationمن الـ Biasلماذا نستثني الـ"><i class="fas fa-angle-left fa-fw"></i>؟Regularizationمن الـ Biasلماذا نستثني الـ</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.90.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Ahmad Zaki</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"id-1":"Something I Learned","id-2":"Something I Learned"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
