@@ -41,14 +41,6 @@ publishDir = "docs"
       url = "/categories/"
       title = ""
       weight = 3
-    [[languages.en.menu.main]]
-      identifier = "about"
-      pre = ""
-      post = ""
-      name = "About"
-      url = "/about/"
-      title = "Know more about me!"
-      weight = 4
 
 #  [languages.ar]
 #    weight = 1
