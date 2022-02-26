@@ -1,7 +1,7 @@
 # ؟Activation functionsالخيار الشائع للـ ReLUليه أصبحت الـ
 
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         ReLU هو اختصار Rectified Linear Unit وهي واحدة من أكثر الـactivation functions المستخدمة في الـNeural networks، رغم إن اسمها يحتوى على كلمة linear لكنها non linear function، وده واضح رياضياً وحتى من الرسم بتاعها، لكن ليه بتقدر تنافس الـactivation functions الأخرى المكوّنة من smooth curves رغم إنها حرفياً عبارة عن خطين بس؟
     </h4>
@@ -31,7 +31,7 @@ $$
 
 
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     ميزة الـReLU الكبرى مش بتظهر لما أستخدم واحدة بس منها، لكن بتكون واضحة لما أجمع شوية دوال ReLU كتير مع بعض، نقطة الانكسار الموجودة بين جزئين دالة الـReLU بتقدر تقرّبلك مجموعة الخطوط الكتيرة دى من أي منحنى أنت عايزه عن طريق إنها بتتيح لك تكسر الخط المستقيم في أي مكان انت عايزه (أو المكان الى الـneural network بتتعلمه).  
     <br><br>
     لاحظ الصورة التالية: لما استخدمت ReLU واحدة بس مقدمتش اختلاف كبير عن الـstraight line، لكن لما بدأت اعمل nesting واجمعهم مع بعض بدأت أكوّن شكل جديد مقدرتش أوصله لما جمعت الـstraight lines مع بعض.
@@ -67,7 +67,7 @@ $$
 
 <br><br>
 <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         <b>
         لمزيد من المعلومات
         </b>

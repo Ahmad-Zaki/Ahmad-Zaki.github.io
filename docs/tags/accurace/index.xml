@@ -10,7 +10,7 @@
     <pubDate>Sat, 20 Nov 2021 21:05:36 &#43;0200</pubDate>
     <author>Author</author>
     <guid>https://Ahmad-Zaki.github.io/imbalanced-datasets-%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9/</guid>
-    <description><![CDATA[<div dir="rtl">
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
     <h4>
         من المشاكل الى قابلتها في الكورسات إن الـdataset أحياناً بتكون خالية من العيوب الى ممكن نلاقيها في أرض الواقع، وفي مجال الـclassification، فيه فرصة كبيرة إننا نتعامل مع imbalanced datasets لإن الأكيد إن مش كل الـclasses بتحدث بنفس النسبة وبالتالي الغير طبيعي هو إن لما أجمع data أشوف كل الـclasses بنفس الrate ، لكن ليه الـimbalance ده ممكن يسبب مشكلة أصلا؟
     </h4>

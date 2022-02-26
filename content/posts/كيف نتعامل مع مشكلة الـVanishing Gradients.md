@@ -12,7 +12,7 @@ tags: [Machine Learning, Deep Learning, Vanishing Gradient, Neural Networks, Bat
 categories: [مما تعلمت]
 ---
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         الـVanishing Gradients هي أحد اكبر المشاكل الى أثرت على تطوّر الـneural networks لفترة طويلة، وبسببها كان تدريب الـdeep neural networks عملية صعبة وبتستغرق وقت كبير، لكن إيه السبب وراء المشكلة دى؟
     </h4>
@@ -28,7 +28,7 @@ categories: [مما تعلمت]
     Source: <a href="https://codeodysseys.com/posts/gradient-calculation/">Click here</a> 
 </p>
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         أحد أسباب المشكلة هو الـrandom weights initialization عن طريق normal distribution الـmean بتاعه صفر والـvariance واحد، استخدام الطريقة دى مع activation function زى sigmoid أو tanh كان يؤدي إلى إن الـoutput variance في كل layer يكون أكبر من الـinput variance، ده كان بيسبّب إن الـsigmoid في الـlayers الآخيرة توصل للـsaturation (لاحظ Figure 2)، فيصبح الـgradient صغير جداً أو بصفر، بالتالي في الـbackpropagation مش هقدر أعمل updates والـlearning هياخد وقت كبير وممكن يتوقف تماماً.
     </h4>
@@ -53,7 +53,7 @@ $\text{Where } fan_{avg} = (fan_{in} + fan_{out}/2), \text{ initialize weights w
 * $\text{Or a uniform distribution between -r and +r with } r = \sqrt{\frac{3}{fan_{avg}}}$
 {{< /admonition >}}
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h3>
         طيب المشكلة دى ظهرت بسبب الـsaturation في sigmoid و tanh، هل ممكن احلها لو استخدمت ReLU؟
     </h3>
@@ -125,7 +125,7 @@ y_i = \gamma \hat{x}_i + \beta \hspace{17mm} \Rightarrow \text{scale and shift} 
 $$
 {{< /admonition >}}
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         ورغم إن فيه خلاف حول موضوع الـinternal covariate shift وتأثيره على الـtraining، ده لا ينفي إن الـBatch normalization طريقة فعالة جداً وبتحسن عملية الـtraining بشكل كبير: دلوقتي الـnetwork أصبحت غير معتمدة بشكل كبير على الـweight initialization زى الأول، وكمان الـdistribution أصبح ثابت تقريباً في كل layer وقللت احتمالية وصول الـinput للـsaturation regions، وبالتالي أقدر أستخدم learning rate أكبر وأسرّع الـtraining أكتر، كمان لو استخدمت الـbatch norm قبل الـactivation function فممكن أستغنى عن الـbias، لإن الـshift parameter الموجود في الـbatch norm يؤدي نفس الوظيفة.
         <br>
@@ -148,7 +148,7 @@ If we define $W'=\gamma \otimes W/\sigma$ and $b'=\gamma \otimes (b-\mu)/\sigma+
 <br>
 <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <b>
     لمزيد من المعلومات:
     </b>

@@ -15,7 +15,7 @@ fontawesome: true
 linkToMarkdown: true
 ---
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         من المشاكل الى قابلتها في الكورسات إن الـdataset أحياناً بتكون خالية من العيوب الى ممكن نلاقيها في أرض الواقع، وفي مجال الـclassification، فيه فرصة كبيرة إننا نتعامل مع imbalanced datasets لإن الأكيد إن مش كل الـclasses بتحدث بنفس النسبة وبالتالي الغير طبيعي هو إن لما أجمع data أشوف كل الـclasses بنفس الrate ، لكن ليه الـimbalance ده ممكن يسبب مشكلة أصلا؟
     </h4>
@@ -38,7 +38,7 @@ helpful html tags:
     Fig 1: Example of an imbalanced dataset 
 </p>
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         ممكن نطرح المشكلة بمثال: لنفترض إن عندي dataset فيها نتائج فحص عن ورم معين في الجسم، فيها 10 ألاف ريكورد عن بيانات مرضى مختلفين والمطلوب مني إن أنا ابني model يتنبأ بوجود الورم ده بناء على بيانات المريض، فأنا دربت موديل بسيط وصلت دقته 99%.
         <br>
         <h3>
@@ -61,7 +61,7 @@ $$
 $$
 TP: True Postive \hspace{1mm} | \hspace{1mm} FP: False Positive \hspace{1mm} | \hspace{1mm} TN: True Negative \hspace{1mm} | \hspace{1mm} FN: False Negative
 $$
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         لإن الـaccuracy بتهتم بحساب نسبة الـTrue positive والـTrue negative، في الحالة الى عندي هنا الـNegative يمثّل 99% من الـdata، وبالتالي حتى لما ضحيت بجزء الـtrue positive لم أفقد أي جزء يذكر من الـaccuracy، فكان ده السبب إن الـaccuracy كانت عالية جداً بالنسبة لـmodel حرفياً متعلمش أي حاجة.
         <br>
         <h3>
@@ -72,20 +72,20 @@ $$
 $$
 Recall = \frac{TP}{TP + FN}
 $$
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         في حالة أخرى ممكن تكون تكلفة الـFalse positive كبيرة وعندها لازم أختار measure بيتأثر بيه وهو الـPrecision:
 </div>
 $$
 Precision = \frac{TP}{TP + FP}
 $$
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         ولو محتاج أتابع الأتنين مع بعض يبقى أختار الـF1 score وهو أفضل معيار ممكن استخدمه في حالة التعامل مع Imbalanced data، لإنه بيتأثر بنسبة الـFalse positive والـFalse negative في نتائج الموديل.  
 </div>
 $$
 F_{1} = 2 \times \frac{Precision \times Recall}{Precision + Recall}
 $$
 <br>
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
         <h4>
         بعد ما عرفت الـmeasure الى أقدر احكم بيه على نتايج الموديل، الخطوة التالية هي إننا نعمل موديل بيتعلم بكفاءة من الـimbalanced data وبيأدي بشكل جيد سواء على الـmajority class (الى بتمثّل غالبيّة الـdataset) أو الـminority class، 
@@ -175,7 +175,7 @@ $$
 
 <br><br>
 <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         <b>
         لمزيد من المعلومات:
         </b>

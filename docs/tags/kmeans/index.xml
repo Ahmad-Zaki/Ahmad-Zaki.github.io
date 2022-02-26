@@ -1,0 +1,19 @@
+<rss xmlns:atom="http://www.w3.org/2005/Atom" version="2.0">
+    <channel>
+        <title>Kmeans - Tag - Something I learned</title>
+        <link>https://Ahmad-Zaki.github.io/tags/kmeans/</link>
+        <description>Kmeans - Tag - Something I learned</description>
+        <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 07 Dec 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/tags/kmeans/" rel="self" type="application/rss+xml" /><item>
+    <title>؟K-meansمشاكل الـ Gaussian Mixture Modelsكيف تحل الـ</title>
+    <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D8%AA%D8%AD%D9%84-%D8%A7%D9%84%D9%80gaussian-mixture-models-%D9%85%D8%B4%D8%A7%D9%83%D9%84-%D8%A7%D9%84%D9%80k-means/</link>
+    <pubDate>Tue, 07 Dec 2021 16:46:33 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D8%AA%D8%AD%D9%84-%D8%A7%D9%84%D9%80gaussian-mixture-models-%D9%85%D8%B4%D8%A7%D9%83%D9%84-%D8%A7%D9%84%D9%80k-means/</guid>
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
+    <h4>
+        الـGaussian Mixture models (GMM) هي عبارة عن probabilistic model بيقدر يعبر عن الـdata distribution وكأنه عبارة عن مجموعة gaussian models متجمعة مع بعض، وممكن نستخدمها كـclustering algorithm مشابه للـk-means . بس إزاي probabilistic model ممكن يعمل clustering للداتا أصلاً؟
+    </h4>
+</div>]]></description>
+</item></channel>
+</rss>

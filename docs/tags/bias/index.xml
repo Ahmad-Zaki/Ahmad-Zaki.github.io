@@ -10,7 +10,7 @@
     <pubDate>Tue, 30 Nov 2021 16:46:33 &#43;0200</pubDate>
     <author>Author</author>
     <guid>https://Ahmad-Zaki.github.io/%D9%84%D9%85%D8%A7%D8%B0%D8%A7-%D9%86%D8%B3%D8%AA%D8%AB%D9%86%D9%8A-%D8%A7%D9%84%D9%80bias-%D9%85%D9%86-%D8%A7%D9%84%D9%80regularization/</guid>
-    <description><![CDATA[<div dir="rtl">
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
     <h4>
         الـregularization هو أحد الحلول الشائعة لمشكلة الـoverfitting، بيتم عن طريق إضافة penalty مباشرة على الـparameters في الـcost function عشان أقلل الـmodel complexity، لكن لو لاحظت هتلاقي إن الـbias مش موجود في الـpenalty دى على الرغم من إنه أحد الـparameters الى الموديل بيتعلمها، ايه السبب؟
     </h4>

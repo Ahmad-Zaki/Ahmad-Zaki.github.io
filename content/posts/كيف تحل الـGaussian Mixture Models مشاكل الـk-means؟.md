@@ -12,7 +12,7 @@ tags: [Machine Learning, Unsupervised Learning, Clustering, Kmeans, Gaussian Mix
 categories: [مما تعلمت]
 ---
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         الـGaussian Mixture models (GMM) هي عبارة عن probabilistic model بيقدر يعبر عن الـdata distribution وكأنه عبارة عن مجموعة gaussian models متجمعة مع بعض، وممكن نستخدمها كـclustering algorithm مشابه للـk-means . بس إزاي probabilistic model ممكن يعمل clustering للداتا أصلاً؟
     </h4>
@@ -77,7 +77,7 @@ categories: [مما تعلمت]
 <br>
 <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <b>
     لمزيد من المعلومات:
     </b>

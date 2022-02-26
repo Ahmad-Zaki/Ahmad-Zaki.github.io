@@ -2,7 +2,7 @@
 
 
  
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         الهدف النهائي الى أنا عايزه من الـneural network هو انها تعبر بشكل تقريبي عن العلاقة ما بين $input \hspace{1mm} (X)$  و $target$ او $output \hspace{1mm} (y)$، بمعنى آخر أنا عايزها تـapproximate دالة $f$ حيث $f(x)=y$.
     </h4>
@@ -11,7 +11,7 @@
 <!--more-->
 <br>
 
-<div dir="auto">
+<div dir="auto" style="text-align: justify">
     <h3> 
         هل الـneural networks تقدر تحقق العلاقة دى؟
     </h3>
@@ -34,7 +34,7 @@
 </div>
 <br><br>
 <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         <b>
         لمزيد من المعلومات:
         </b>

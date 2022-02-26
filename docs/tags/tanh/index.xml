@@ -10,7 +10,7 @@
     <pubDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</pubDate>
     <author>Author</author>
     <guid>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/</guid>
-    <description><![CDATA[<div dir="rtl">
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
     <h4>
         الـVanishing Gradients هي أحد اكبر المشاكل الى أثرت على تطوّر الـneural networks لفترة طويلة، وبسببها كان تدريب الـdeep neural networks عملية صعبة وبتستغرق وقت كبير، لكن إيه السبب وراء المشكلة دى؟
     </h4>

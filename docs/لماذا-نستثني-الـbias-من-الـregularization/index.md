@@ -1,7 +1,7 @@
 # ؟Regularizationمن الـ Biasلماذا نستثني الـ
 
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h4>
         الـregularization هو أحد الحلول الشائعة لمشكلة الـoverfitting، بيتم عن طريق إضافة penalty مباشرة على الـparameters في الـcost function عشان أقلل الـmodel complexity، لكن لو لاحظت هتلاقي إن الـbias مش موجود في الـpenalty دى على الرغم من إنه أحد الـparameters الى الموديل بيتعلمها، ايه السبب؟
     </h4>
@@ -17,7 +17,7 @@
     Source: <a href="https://www.deepwizai.com/simply-deep/why-does-regularizing-the-bias-lead-to-underfitting-in-neural-networks">Click here</a> 
 </p>
 
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
     <h3>
         خلينا نبدأ من ورا شوية: إحنا ليه بنحتاج bias term ؟
     </h3>
@@ -45,7 +45,7 @@
 
 <br><br>
 <hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
-<div dir="rtl">
+<div dir="rtl" style="text-align: justify">
         <b>
         لمزيد من المعلومات:
         </b>
