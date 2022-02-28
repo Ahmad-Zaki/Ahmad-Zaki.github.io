@@ -499,12 +499,12 @@ $$
             \underbrace{\left( \begin{array}{ccc}
             \frac{\partial L}{\partial X_{11}}&\frac{\partial L}{\partial X_{12}}&\frac{\partial L}{\partial X_{13}}\\ \rule{0mm}{5mm}
             \frac{\partial L}{\partial X_{21}}&\frac{\partial L}{\partial X_{22}}&\frac{\partial L}{\partial X_{23}}\\ \rule{0mm}{5mm}
-            \frac{\partial L}{\partial X_{31}}&\frac{\partial L}{\partial X_{23}}&\frac{\partial L}{\partial X_{33}}\\
+            \frac{\partial L}{\partial X_{31}}&\frac{\partial L}{\partial X_{32}}&\frac{\partial L}{\partial X_{33}}\\
             \end{array} \right)}_{\frac{\partial L}{\partial X}} = 
             \underbrace{\left( \begin{array}{cccc}
             0&0&0&0 \\ \rule{0mm}{5mm}
             0&\frac{\partial L}{\partial O_{11}}&\frac{\partial L}{\partial O_{12}}&0 \\ \rule{0mm}{5mm}
-            0&\frac{\partial L}{\partial O_{21}}&\frac{\partial L}{\partial O_{21}}&0 \\ \rule{0mm}{5mm}
+            0&\frac{\partial L}{\partial O_{21}}&\frac{\partial L}{\partial O_{22}}&0 \\ \rule{0mm}{5mm}
             0&0&0&0
             \end{array} \right)}_{padded \frac{\partial L}{\partial O}} \otimes
             \underbrace{\left( \begin{array}{cc}
@@ -599,7 +599,7 @@ $$
         $$
         \frac{\partial L}{\partial F} = Convolution(\text{Input } X, \text{ Loss gradient } \frac{\partial L}{\partial O}) 
         \hspace{25mm} \\ \rule{0mm}{8mm}
-        \frac{\partial L}{\partial x} = \text{Full Convolution}(180^o \text{ Rotated filter } F, \text{ Loss gradient } \frac{\partial L}{\partial O})
+        \frac{\partial L}{\partial X} = \text{Full Convolution}(180^o \text{ Rotated filter } F, \text{ Loss gradient } \frac{\partial L}{\partial O})
         $$ 
     </bdo>
 </div>
