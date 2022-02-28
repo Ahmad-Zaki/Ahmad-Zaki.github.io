@@ -1,0 +1,658 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ - Something I learned</title><meta name="Description" content=""><meta property="og:title" content="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ" />
+<meta property="og:description" content="
+    
+        في الغالب كانت بداية معرفتك بالـbackbropagation عن طريق شرحه على Fully connected neural network, لكن بعد ما تتطرق لأشكال أخرى من الـneural netowrks مثل الـconvolutional neural network بتلاقي إن الـbackpropagation مستخدم فيهم كـalgorithm رئيسي لحساب الـgradients في كل layer لكن بدون ذكر تفاصيل أكثر عنها، لإنك بالفعل غير مضطر لمعرفة تفاصيل الرياضية قبل استخدامها، ومع ذلك فمعرفة كيف تتم داخل الـConv layers  قد يكون سؤال مر ببالك ولو من باب الفضول في وقت من الأوقات.
+    
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" /><meta property="og:image" content="https://Ahmad-Zaki.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-02-28T14:20:12+02:00" />
+<meta property="article:modified_time" content="2022-02-28T14:20:12+02:00" /><meta property="og:site_name" content="Something I learned" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://Ahmad-Zaki.github.io/logo.png"/>
+
+<meta name="twitter:title" content="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ"/>
+<meta name="twitter:description" content="
+    
+        في الغالب كانت بداية معرفتك بالـbackbropagation عن طريق شرحه على Fully connected neural network, لكن بعد ما تتطرق لأشكال أخرى من الـneural netowrks مثل الـconvolutional neural network بتلاقي إن الـbackpropagation مستخدم فيهم كـalgorithm رئيسي لحساب الـgradients في كل layer لكن بدون ذكر تفاصيل أكثر عنها، لإنك بالفعل غير مضطر لمعرفة تفاصيل الرياضية قبل استخدامها، ومع ذلك فمعرفة كيف تتم داخل الـConv layers  قد يكون سؤال مر ببالك ولو من باب الفضول في وقت من الأوقات.
+    
+"/>
+<meta name="application-name" content="مما تعلمت">
+<meta name="apple-mobile-web-app-title" content="مما تعلمت"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" /><link rel="prev" href="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Ahmad-Zaki.github.io\/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks\/"
+        },"genre": "posts","keywords": "Deep Learning, Convolutions, CNN, Convolutional Neural Networks, Backpropagation, Neural Networks","wordcount":  2167 ,
+        "url": "https:\/\/Ahmad-Zaki.github.io\/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks\/","datePublished": "2022-02-28T14:20:12+02:00","dateModified": "2022-02-28T14:20:12+02:00","publisher": {
+            "@type": "Organization",
+            "name": "Ahmad Zaki"},"author": {
+                "@type": "Person",
+                "name": "Ahmad Zaki"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Something I learned"><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Look for an article" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Something I learned"><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Look for an article" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ</h1><h2 class="single-subtitle">Fully Connected Neural Networksوكيف يختلف في تنفيذه عن الـ</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Ahmad Zaki</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/"><i class="far fa-folder fa-fw"></i>مما تعلمت</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-02-28">2022-02-28</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;2167 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;11 minutes&nbsp;</div>
+        </div><div class="content" id="content"><div dir="rtl" style="text-align: justify">
+    <h4>
+        في الغالب كانت بداية معرفتك بالـbackbropagation عن طريق شرحه على Fully connected neural network, لكن بعد ما تتطرق لأشكال أخرى من الـneural netowrks مثل الـconvolutional neural network بتلاقي إن الـbackpropagation مستخدم فيهم كـalgorithm رئيسي لحساب الـgradients في كل layer لكن بدون ذكر تفاصيل أكثر عنها، لإنك بالفعل غير مضطر لمعرفة تفاصيل الرياضية قبل استخدامها، ومع ذلك فمعرفة كيف تتم داخل الـConv layers  قد يكون سؤال مر ببالك ولو من باب الفضول في وقت من الأوقات.
+    </h4>
+</div>
+<div dir="rtl" style="text-align: justify">
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">جميع الصور والـAnimation مصدرها هو <a href="https://pavisj.medium.com/convolutions-and-backpropagations-46026a8f5d2c" target="_blank" rel="noopener noreffer">المقال الرائع</a> ده والى بيتكلم عن الـbackpropagation في الـconvnets بشكل مبسط وجيد جداً، أنصح بقراءته لمزيد من التفاصيل.</div>
+        </div>
+    </div>
+<div class="details admonition tip open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>Tip<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">يفضّل أن يكون لديك معرفة كافية بخطوات الـbackpropagation واستخدام الـderivatives والـchain rule فيه قبل قراءة المقال.</div>
+        </div>
+    </div>
+    <h3>
+        إذاً كيف يتم تنفيذ الـBackpropagation في الـConvNets؟
+    </h3>
+    <h4>
+        لنفترض إن عندنا Input <bdo dir="ltr">$X_{3×3}$ </bdo> و Filter <bdo dir="ltr">$F_{2×2}$</bdo> كالتالي:
+        <bdo dir="ltr">
+            $$X_{3×3} = \left( \begin{array}{ccc}
+            X_{11}&X_{12}&X_{13} \\
+            X_{21}&X_{22}&X_{23} \\
+            X_{31}&X_{32}&X_{33} \\
+            \end{array} \right) \hspace{10mm}
+            F_{2×2} = \left( \begin{array}{cc}
+            F_{11}&F_{12} \\
+            F_{21}&F_{22} \\
+            \end{array} \right)
+            $$ 
+        </bdo>
+        في الـforward pass نحصل على ناتج الـconvolution بين $X$ و $F$ (على اعتبار ان الـstride=1 ,والـpadding=0) وهو <bdo dir="ltr">$O_{2×2}$ </bdo>،و تتم العملية كالتالي:
+        <bdo dir="ltr">
+            $$\underbrace{\left( \begin{array}{cc}
+            O_{11}&O_{12} \\
+            O_{21}&O_{22} \\
+            \end{array} \right)}_{O_{2×2}} = 
+            \underbrace{\left( \begin{array}{ccc}
+            X_{11}&X_{12}&X_{13} \\
+            X_{21}&X_{22}&X_{23} \\
+            X_{31}&X_{32}&X_{33} \\
+            \end{array} \right)}_{X_{3×3}} \otimes
+            \underbrace{\left( \begin{array}{cc}
+            F_{11}&F_{12} \\
+            F_{21}&F_{22} \\
+            \end{array} \right)}_{F_{2×2}}
+            $$ 
+        </bdo>
+    </h4>
+    <p align="center">
+        <img src="/lib/img/cnn forward pass.gif" alt="forward pass in a conv layer"/>
+        <br>
+        Fig 1: Forward pass in a convolution layer with one filter
+    </p>
+    <h4>
+        عملية الـBackpropagation (موضّحة في Fig 2) تتم عن طريق الـChain rule، بنبدأ من آخر layer ونحسب الـloss gradient <bdo dir="ltr">$\frac{\partial L}{\partial z}$</bdo> بتاعها ونتحرك للـlayer الى قبلها. في الlayer التالية بنحسب الـloss gradient عندها عن طريق ضرب <bdo dir="ltr">$\frac{\partial L}{\partial z}$</bdo> في الـlocal gradients الخاصة بالـlayer وهي كل من <bdo dir="ltr">$\frac{\partial z}{\partial x}$</bdo> و <bdo dir="ltr">$\frac{\partial z}{\partial y}$</bdo>.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/neuron backpropagation.png" alt="backpropagation"/>
+        <br>
+        Fig 2: Gradients flow in a neuron
+    </p>
+    <h4>
+        في الـfully connected neural network، حساب الـlocal gradients يتم بطريقة مباشرة لأن z عبارة عن دالة في كل من x,y، لكن في الـconvolutional neural network نجد أن O عبارة عن ناتج convolution بين الـweights (الـfilter parameters) والfeature map X.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/back prop cnn.JPG" alt="backpropagation in CNN"/>
+        <br>
+        Fig 3: Gradients flow in a convolutional neuron
+    </p>
+    <h3>
+        ليه بنحتاج نحسب الـlocal gradients في الـconvolution؟
+    </h3>
+    <h4>
+        <bdo dir="ltr">$\frac{\partial O}{\partial F}$</bdo> بنستخدمه عشان نحسب الـloss gradient بالنسبة لـF، وهو ده الى بنستخدمه عشان نعمل update لقيم الـfilter:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial F} = \frac{\partial O}{\partial F} × \frac{\partial L}{\partial O} \\ \rule{0mm}{7mm}
+            F_{updated} = F - \alpha \frac{\partial L}{\partial F}
+            $$ 
+        </bdo>
+        أما بالنسبة لـ <bdo dir="ltr">$\frac{\partial O}{\partial X}$</bdo>، بما أن X هى output الـlayer السابقة، إذاً يصبح<bdo dir="ltr">$\frac{\partial L}{\partial X}$</bdo> هو الـloss gradient الخاص بالـlayer السابقة، وبالتالي بنحسبه عشان نكمل الـbackpropagation في باقي الـlayers.
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial X} = \frac{\partial O}{\partial X} × \frac{\partial L}{\partial O}
+            $$ 
+        </bdo>
+    </h4>
+    <p align="center">
+        <img src="/lib/img/why calculate local gradients in cnn.gif" alt="why calculate local gradients in cnn"/>
+        <br>
+        Fig 4: Why do we need to calculate <bdo dir="ltr">$\frac{\partial L}{\partial X}, \frac{\partial L}{\partial F}$</bdo>
+    </p>
+    <h3>
+        إزاي هنحسب <bdo dir="ltr">$\frac{\partial L}{\partial F}$</bdo>؟
+    </h3>
+    <h4>
+        في البداية عشان نحسب <bdo dir="ltr">$\frac{\partial L}{\partial F}$</bdo>، هنحتاج نحسب الـlocal gradient الخاص بيها وهو <bdo dir="ltr">$\frac{\partial O}{\partial F}$</bdo>، العلاقة بين O و F الى هنحسب منها الـgradient هى:
+        <bdo dir="ltr">
+            $$\underbrace{\left( \begin{array}{cc}
+            O_{11}&O_{12} \\
+            O_{21}&O_{22} \\
+            \end{array} \right)}_{O_{2×2}} = 
+            \underbrace{\left( \begin{array}{ccc}
+            X_{11}&X_{12}&X_{13} \\
+            X_{21}&X_{22}&X_{23} \\
+            X_{31}&X_{32}&X_{33} \\
+            \end{array} \right)}_{X_{3×3}} \otimes
+            \underbrace{\left( \begin{array}{cc}
+            F_{11}&F_{12} \\
+            F_{21}&F_{22} \\
+            \end{array} \right)}_{F_{2×2}}
+            $$ 
+        </bdo>
+        عشان نحسب <bdo dir="ltr">$\frac{\partial O}{\partial F}$</bdo> لازم نحسب الـgradient الخاص بـO بالنسبة لكل element في F، على سبيل المثال لو حسبنا الـgradient الخاص بـO بالنسبة إلى <bdo dir="ltr">$F_{11}$</bdo>:
+        <bdo dir="ltr">
+            $$
+            O_{11} = X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\ \rule{0mm}{7mm}
+            O_{12} = X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\ \rule{0mm}{7mm}
+            O_{21} = X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\ \rule{0mm}{7mm}
+            O_{22} = X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\ \rule{0mm}{10mm}
+            \frac{\partial O_{11}}{\partial F_{11}} = X_{11}, \hspace{5mm}
+            \frac{\partial O_{12}}{\partial F_{11}} = X_{12}, \hspace{5mm}
+            \frac{\partial O_{21}}{\partial F_{11}} = X_{21}, \hspace{5mm}
+            \frac{\partial O_{22}}{\partial F_{11}} = X_{22}\\ 
+            \rule{0mm}{10mm}
+            \therefore \frac{\partial O}{\partial F_{11}} = \left( \begin{array}{cc}
+            \frac{\partial O_{11}}{\partial F_{11}}&\frac{\partial O_{12}}{\partial F_{11}} \\\rule{0mm}{5mm}
+            \frac{\partial O_{21}}{\partial F_{11}}&\frac{\partial O_{22}}{\partial F_{11}} \\
+            \end{array} \right) =
+            \left( \begin{array}{cc}
+            X_{11}&X_{12} \\
+            X_{21}&X_{22}
+            \end{array} \right)
+            $$ 
+        </bdo>
+        وبالمثل نقدر نحسب الـgradient بالنسبة لكل من <bdo dir="ltr">$F_{21}, F_{12}, F_{22}$</bdo>:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial O}{\partial F_{12}} = 
+            \left( \begin{array}{cc}
+            X_{12}&X_{13} \\
+            X_{22}&X_{23}
+            \end{array} \right), \hspace{5mm}
+            \frac{\partial O}{\partial F_{21}} = 
+            \left( \begin{array}{cc}
+            X_{21}&X_{22} \\
+            X_{31}&X_{32}
+            \end{array} \right), \hspace{5mm}
+            \frac{\partial O}{\partial F_{22}} = 
+            \left( \begin{array}{cc}
+            X_{22}&X_{23} \\
+            X_{32}&X_{33}
+            \end{array} \right)
+            $$ 
+        </bdo>
+        دلوقتي نقدر نطبق قاعدة الـChain rule عشان نحسب <bdo dir="ltr">$\frac{\partial L}{\partial F}$</bdo>:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial F} = \frac{\partial O}{\partial F} × \frac{\partial L}{\partial O}
+            $$ 
+        </bdo>
+    </h4>
+    <h3>
+        إزاي هنطبق الـchain rule على مصفوفات؟
+    </h3>
+    <h4>
+        عشان نحسب المعادلة دى، هنحسب الـ loss gradient بالنسبة لكل element في F على حدة باستخدام المعادلة الآتية:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial F_{ij}} = \left\langle \frac{\partial L}{\partial O}, \frac{\partial O}{\partial F_{ij}} \right\rangle_{F}
+            $$ 
+        </bdo>
+        حيث أن <bdo dir="ltr">$\langle\cdot,\cdot\rangle_{F}$</bdo> تعبّر عن الـFrobenius inner product بين مصفوفتين.
+<div class="details admonition tip">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-lightbulb fa-fw"></i>ماهو Frobenius Inner Product؟<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content"><bdo dir="ltr">
+$$
+\text{Let }
+A = \left( \begin{array}{cc}
+A_{11}&A_{12} \\
+A_{21}&A_{22}
+\end{array} \right), \hspace{5mm}
+B = \left( \begin{array}{cc}
+B_{11}&B_{12} \\
+B_{21}&B_{22}
+\end{array} \right) \\ \rule{0mm}{8mm}
+\therefore \langle A,B\rangle_{F} = A_{11}B_{11} + A_{12}B_{12} + A_{21}B_{21} + A_{22}B_{22}
+$$
+</bdo>
+</div>
+        </div>
+    </div>
+        <bdo dir="ltr">$\frac{\partial L}{\partial O}$</bdo> ممكن نحسبه بسهولة عن طريق تفاضل الـloss function بالنسبة لكل عنصر في O لو كان O هو ناتج آخر layer في الـnetwork، أما لو كان ناتج layer في وسط الnetwork هيكون عبارة عن الـloss gradient القادم من الـlayer التالية لها.
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial O} = \left( \begin{array}{cc}
+            \frac{\partial L}{\partial O_{11}}&\frac{\partial L}{\partial O_{12}} \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial O_{21}}&\frac{\partial L}{\partial O_{22}} \\
+            \end{array} \right)
+            $$
+        </bdo>
+        الآن نقدر نحسب الـloss gradient بالنسبة لكل عنصر في F:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial F_{11}} = \frac{\partial L}{\partial O_{11}} \frac{\partial O_{11}}{\partial F_{11}} + \frac{\partial L}{\partial O_{12}} \frac{\partial O_{12}}{\partial F_{11}} + \frac{\partial L}{\partial O_{21}} \frac{\partial O_{21}}{\partial F_{11}} + \frac{\partial L}{\partial O_{22}} \frac{\partial O_{22}}{\partial F_{11}} \\ 
+            \rule{0mm}{10mm}
+            \frac{\partial L}{\partial F_{12}} = \frac{\partial L}{\partial O_{11}} \frac{\partial O_{11}}{\partial F_{12}} + \frac{\partial L}{\partial O_{12}} \frac{\partial O_{12}}{\partial F_{12}} + \frac{\partial L}{\partial O_{21}} \frac{\partial O_{21}}{\partial F_{12}} + \frac{\partial L}{\partial O_{22}} \frac{\partial O_{22}}{\partial F_{12}} \\ 
+            \rule{0mm}{10mm}
+            \frac{\partial L}{\partial F_{21}} = \frac{\partial L}{\partial O_{11}} \frac{\partial O_{11}}{\partial F_{21}} + \frac{\partial L}{\partial O_{12}} \frac{\partial O_{12}}{\partial F_{21}} + \frac{\partial L}{\partial O_{21}} \frac{\partial O_{21}}{\partial F_{21}} + \frac{\partial L}{\partial O_{22}} \frac{\partial O_{22}}{\partial F_{21}} \\ 
+            \rule{0mm}{10mm}
+            \frac{\partial L}{\partial F_{22}} = \frac{\partial L}{\partial O_{11}} \frac{\partial O_{11}}{\partial F_{22}} + \frac{\partial L}{\partial O_{12}} \frac{\partial O_{12}}{\partial F_{22}} + \frac{\partial L}{\partial O_{21}} \frac{\partial O_{21}}{\partial F_{22}} + \frac{\partial L}{\partial O_{22}} \frac{\partial O_{22}}{\partial F_{22}} \\ 
+            \rule{0mm}{5mm}
+            $$
+        </bdo>
+        لو عوّضنا عن كل <bdo dir="ltr">$\frac{\partial O_{xy}}{\partial F_{ij}}$</bdo> بالقيم الى حسبناها فوق:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial F_{11}} = \frac{\partial L}{\partial O_{11}} X_{11} + \frac{\partial L}{\partial O_{12}} X_{12} + \frac{\partial L}{\partial O_{21}} X_{21} + \frac{\partial L}{\partial O_{22}} X_{22} \\ 
+            \rule{0mm}{10mm}
+            \frac{\partial L}{\partial F_{12}} = \frac{\partial L}{\partial O_{11}} X_{12} + \frac{\partial L}{\partial O_{12}} X_{13} + \frac{\partial L}{\partial O_{21}} X_{22} + \frac{\partial L}{\partial O_{22}} X_{23} \\ 
+            \rule{0mm}{10mm}
+            \frac{\partial L}{\partial F_{21}} = \frac{\partial L}{\partial O_{11}} X_{21} + \frac{\partial L}{\partial O_{12}} X_{22} + \frac{\partial L}{\partial O_{21}} X_{31} + \frac{\partial L}{\partial O_{22}} X_{32} \\ 
+            \rule{0mm}{10mm}
+            \frac{\partial L}{\partial F_{22}} = \frac{\partial L}{\partial O_{11}} X_{22} + \frac{\partial L}{\partial O_{12}} X_{23} + \frac{\partial L}{\partial O_{21}} X_{32} + \frac{\partial L}{\partial O_{22}} X_{33} \\ 
+            \rule{0mm}{10mm}
+            $$
+        </bdo>
+        هل لاحظت إحنا بنعمل إيه؟ لاحظ إن ناتج الـchain rule الى طبقناها مشابه لناتج عملية الـconvolution الى كنا بنطبقها في الـforward pass! تعالى نكتب المعادلات الى وصلنا لها بصيغة convolution operation عشان نتأكد:
+        <bdo dir="ltr">
+            $$
+            \underbrace{\left( \begin{array}{cc}
+            \frac{\partial L}{\partial F_{11}}&\frac{\partial L}{\partial F_{12}} \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial F_{21}}&\frac{\partial L}{\partial F_{22}} \\
+            \end{array} \right)}_{\frac{\partial L}{\partial F}} = 
+            \underbrace{\left( \begin{array}{ccc}
+            X_{11}&X_{12}&X_{13} \\
+            X_{21}&X_{22}&X_{23} \\
+            X_{31}&X_{32}&X_{33} \\
+            \end{array} \right)}_{X_{3×3}} \otimes
+            \underbrace{\left( \begin{array}{cc}
+            \frac{\partial L}{\partial O_{11}}&\frac{\partial L}{\partial O_{12}} \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial O_{21}}&\frac{\partial L}{\partial O_{22}} \\
+            \end{array} \right)}_{\frac{\partial L}{\partial O}}
+            $$
+        </bdo>
+        ناتج الـconvolution هو الأربع معادلات الى وصلنا لهم، وده يخلينا نستنتج إن الـconv layer بتطبق الـconvolution operation في الـforward pass عشان تحسب الـfeature maps، وفي الـbackward pass عشان تحسب الـgradients.
+    </h4>
+    <h3>
+        بعد ما حسبنا <bdo dir="ltr">$\frac{\partial L}{\partial F}$</bdo> هنشوف دلوقتي إزاي نحسب <bdo dir="ltr">$\frac{\partial L}{\partial X}$</bdo>
+    </h3>
+    <h4>
+        <bdo dir="ltr">
+            $$\underbrace{\left( \begin{array}{cc}
+            O_{11}&O_{12} \\
+            O_{21}&O_{22} \\
+            \end{array} \right)}_{O_{2×2}} = 
+            \underbrace{\left( \begin{array}{ccc}
+            X_{11}&X_{12}&X_{13} \\
+            X_{21}&X_{22}&X_{23} \\
+            X_{31}&X_{32}&X_{33} \\
+            \end{array} \right)}_{X_{3×3}} \otimes
+            \underbrace{\left( \begin{array}{cc}
+            F_{11}&F_{12} \\
+            F_{21}&F_{22} \\
+            \end{array} \right)}_{F_{2×2}}
+            $$ 
+        </bdo>
+        بنفس الطريقة الى حسبنا بيها الـlocal gradient بالنسبة لـF، هنحسب الـlocal gradient بالنسبة لـX:
+        <bdo dir="ltr">
+            $$
+            O_{11} = X_{11}F_{11} + X_{12}F_{12} + X_{21}F_{21} + X_{22}F_{22} \\ \rule{0mm}{7mm}
+            O_{12} = X_{12}F_{11} + X_{13}F_{12} + X_{22}F_{21} + X_{23}F_{22} \\ \rule{0mm}{7mm}
+            O_{21} = X_{21}F_{11} + X_{22}F_{12} + X_{31}F_{21} + X_{32}F_{22} \\ \rule{0mm}{7mm}
+            O_{22} = X_{22}F_{11} + X_{23}F_{12} + X_{32}F_{21} + X_{33}F_{22} \\ \rule{0mm}{10mm}
+            \frac{\partial O_{11}}{\partial X_{11}} = F_{11}, \hspace{5mm}
+            \frac{\partial O_{12}}{\partial X_{11}} = 0 \\ \rule{0mm}{8mm}
+            \frac{\partial O_{21}}{\partial X_{11}} = 0,  \hspace{8mm}
+            \frac{\partial O_{22}}{\partial X_{11}} = 0 \\
+            \rule{0mm}{10mm}
+            \therefore \frac{\partial O}{\partial X_{11}} = \left( \begin{array}{ccc}
+            \frac{\partial O_{11}}{\partial X_{11}}&\frac{\partial O_{12}}{\partial X_{11}} \\\rule{0mm}{5mm}
+            \frac{\partial O_{21}}{\partial X_{11}}&\frac{\partial O_{22}}{\partial X_{11}} \\
+            \end{array} \right) =
+            \left( \begin{array}{cc}
+            F_{11}&0 \\
+            0&0
+            \end{array} \right)
+            $$ 
+        </bdo>
+        وبالمثل نقدر نحسب الـgradient بالنسبة لكل من لباقي عناصر X:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial O}{\partial X_{12}} = 
+            \left( \begin{array}{cc}
+            F_{12}&F_{11} \\
+            0&0
+            \end{array} \right), \hspace{5mm}
+            \frac{\partial O}{\partial X_{13}} = 
+            \left( \begin{array}{cc}
+            0&F_{12} \\
+            0&0
+            \end{array} \right), \hspace{5mm}
+            \frac{\partial O}{\partial X_{21}} = 
+            \left( \begin{array}{cc}
+            F_{21}&0 \\
+            F_{11}&0
+            \end{array} \right) \text{  ... etc}
+            $$ 
+        </bdo>
+        بعد ما حسبنا الـlocal gradient بالنسبة لـX نقدر دلوقتي نطبق الـchain rule:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial X_{ij}} = \langle \frac{\partial L}{\partial O}, \frac{\partial O}{\partial X_{ij}} \rangle_{F}
+            $$ 
+        </bdo>
+        بعد ما نحسب الـproduct ونعوّض هنلاقي النتائج التالية:
+        <bdo dir="ltr">
+            $$
+            \frac{\partial L}{\partial X_{11}} = \frac{\partial L}{\partial O_{11}} F_{11} 
+            \hspace{80mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{12}} = \frac{\partial L}{\partial O_{11}} F_{12} + \frac{\partial L}{\partial O_{12}} F_{11}
+            \hspace{62mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{13}} = \frac{\partial L}{\partial O_{12}} F_{12}
+            \hspace{80mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{21}} = \frac{\partial L}{\partial O_{11}} F_{21} + \frac{\partial L}{\partial O_{21}} F_{11}
+            \hspace{62mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{22}} = \frac{\partial L}{\partial O_{11}} F_{22} + \frac{\partial L}{\partial O_{12}} F_{21} + \frac{\partial L}{\partial O_{21}} F_{12} + \frac{\partial L}{\partial O_{22}} F_{11}
+            \hspace{27mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{23}} = \frac{\partial L}{\partial O_{12}} F_{22} + \frac{\partial L}{\partial O_{22}} F_{12}
+            \hspace{62mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{31}} = \frac{\partial L}{\partial O_{21}} F_{21}
+            \hspace{80mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{32}} = \frac{\partial L}{\partial O_{21}} F_{22} + \frac{\partial L}{\partial O_{22}} F_{21}
+            \hspace{62mm} \\ \rule{0mm}{8mm}
+            \frac{\partial L}{\partial X_{33}} = \frac{\partial L}{\partial O_{22}} F_{22}
+            \hspace{80mm}
+            $$ 
+        </bdo>
+    </h4>
+    <h3>
+        المعادلات شكلها مختلف عن الى شفناه بالنسبة لـF، بس هل ممكن نعبّر عنها بـconvolution؟
+    </h3>
+    <h4>
+        نعم، نقدر نعبّر عنها عن طريق 'Full' Covolution بين F و <bdo dir="ltr">$\frac{\partial L}{\partial O}$</bdo>
+    </h4>
+<div class="details admonition Note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Convolution Vs. Cross Correlation<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">على الرغم من إن الـconvolutional neural networks تحتوي في اسمها على كلمة convolution، إلا إن المسمى الفعلي للعملية الرياضية الى بتحصل فيها هو Cross Correlation, وهى إننا بنحرك الـfilter كsliding window على الـinput ونضرب العناصر المقابلة في بعضها ونجمع النتيجة، أما في الـConvolution بندوّر الـfilter بـ180 درجة الأول قبل ما نحركه.</div>
+        </div>
+    </div>
+    <h4>
+        عشان نطبق الـconvolution بالشكل الى هيطلع لي المعادلات دى لازم ندوّر الفلتر 180 درجة:
+    <bdo dir="ltr">
+        $$
+        \left( \begin{array}{cc}
+        F_{11}&F_{12} \\
+        F_{21}&F_{22} \\
+        \end{array} \right)
+        \xRightarrow{180^o \text{-Rotation}}
+        \left( \begin{array}{cc}
+        F_{22}&F_{21} \\
+        F_{12}&F_{11} \\
+        \end{array} \right)
+        $$ 
+    </bdo>
+    دلوقتي نقدر نحسب <bdo dir="ltr">$\frac{\partial L}{\partial X}$</bdo> باستخدام full convolution، وهو يكافئ covolution with full zero padding:
+    <bdo dir="ltr">
+            $$
+            \underbrace{\left( \begin{array}{ccc}
+            \frac{\partial L}{\partial X_{11}}&\frac{\partial L}{\partial X_{12}}&\frac{\partial L}{\partial X_{13}}\\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial X_{21}}&\frac{\partial L}{\partial X_{22}}&\frac{\partial L}{\partial X_{23}}\\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial X_{31}}&\frac{\partial L}{\partial X_{23}}&\frac{\partial L}{\partial X_{33}}\\
+            \end{array} \right)}_{\frac{\partial L}{\partial X}} = 
+            \underbrace{\left( \begin{array}{cccc}
+            0&0&0&0 \\ \rule{0mm}{5mm}
+            0&\frac{\partial L}{\partial O_{11}}&\frac{\partial L}{\partial O_{12}}&0 \\ \rule{0mm}{5mm}
+            0&\frac{\partial L}{\partial O_{21}}&\frac{\partial L}{\partial O_{21}}&0 \\ \rule{0mm}{5mm}
+            0&0&0&0
+            \end{array} \right)}_{padded \frac{\partial L}{\partial O}} \otimes
+            \underbrace{\left( \begin{array}{cc}
+            F_{22}&F_{21} \\
+            F_{12}&F_{11} \\
+            \end{array} \right)}_{Rotated \hspace{1mm} F}
+            $$ 
+        </bdo>
+    </h4>
+    <p align="center">
+        <img src="/lib/img/full convolution operation.gif" alt="full convolution operation"/>
+        <br>
+        Fig 5: Full Convolution operation visualized between 180-degree flipped Filter F and loss gradient <bdo dir="ltr">$\frac{\partial L}{\partial O}$</bdo>
+    </p>
+    <h3>
+        هل الـpooling layers بتأثر على الـbackpropagation؟
+    </h3>
+    <h4>
+        الـPooling layers لا تحتوي على learnable parametersو لكن زى ما لها دور في الـforward pass فبالتأكيد لها دور في الـbackward pass اثناء حساب الـgradients.
+        <br>
+        لنفترض إن الـinput الخاص بـ(2×2)pooling layer هو المصفوفة A, والـOutput هو المصفوفة B:
+    <bdo dir="ltr">
+        $$
+        A = \left( \begin{array}{cccc}
+            A_{11}&A_{12}&A_{13}&A_{14} \\
+            A_{21}&A_{22}&A_{23}&A_{24} \\
+            A_{31}&A_{32}&A_{33}&A_{34} \\
+            A_{41}&A_{42}&A_{43}&A_{44} \\
+            \end{array} \right), \hspace{5mm}
+        B = \left( \begin{array}{cc}
+            B_{11}&B_{12} \\
+            B_{21}&B_{22}\\
+            \end{array} \right) \\ \rule{0mm}{7mm}
+        B_{11} = pool\left( \begin{array}{cc}
+            A_{11}&A_{12} \\
+            A_{21}&A_{22}\\
+            \end{array} \right), \hspace{2mm}
+        B_{12} = pool\left( \begin{array}{cc}
+            A_{13}&A_{14} \\
+            A_{23}&A_{24}\\
+            \end{array} \right) \hspace{2mm}
+        \\ \rule{0mm}{7mm}
+        B_{21} = pool\left( \begin{array}{cc}
+            A_{31}&A_{32} \\
+            A_{41}&A_{42}\\
+            \end{array} \right), \hspace{2mm}
+        B_{22} = pool\left( \begin{array}{cc}
+            A_{33}&A_{34} \\
+            A_{43}&A_{44}\\
+            \end{array} \right) \hspace{2mm}
+        $$ 
+    </bdo>
+    أثناء الـbackpropagation هيبقى عندي <bdo dir="ltr">$\frac{\partial L}{\partial B}$</bdo> ومنه هحتاج أحسب <bdo dir="ltr">$\frac{\partial L}{\partial A}$</bdo> عشان يروح للـlayer الى وراه:
+    <bdo dir="ltr">
+        $$
+        \frac{\partial L}{\partial B} =
+         \left( \begin{array}{cc}
+        \frac{\partial L}{\partial B_{11}}&\frac{\partial L}{\partial B_{12}} \\ \rule{0mm}{5mm}
+        \frac{\partial L}{\partial B_{21}}&\frac{\partial L}{\partial B_{22}}
+        \end{array} \right)
+        $$ 
+    </bdo>
+    في حالة الـ Max pooling, عنصر واحد فقط من الأربعة هو الى بيعدي للـlayer التالية، وبالتالي هو العنصر الوحيد الى بيكون عنده قيمة للـgradient لإنه هو الوحيد الى شارك في الـerror.
+    <br>
+    لو أفترضنا إن <bdo dir="ltr">$A_{11},A_{13},A_{31},A_{33}$</bdo> هم أكبر قيم في كل cell:
+    <bdo dir="ltr">
+        $$
+        \therefore \frac{\partial L}{\partial A} = \left( \begin{array}{cccc}
+            \frac{\partial L}{\partial B_{11}}&0&\frac{\partial L}{\partial B_{12}}&0 \\ \rule{0mm}{5mm}
+            0&0&0&0 \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial B_{21}}&0&\frac{\partial L}{\partial B_{22}}&0 \\ \rule{0mm}{5mm}
+            0&0&0&0\\
+            \end{array} \right)
+        $$ 
+    </bdo>
+    أما في حالة الـAverage pooling، فكل عنصر بيشارك في الـerror بنفس القيمة، فبالتالي الـgradient بيتوزع عليهم بالتساوي:
+    <bdo dir="ltr">
+        $$
+        \therefore \frac{\partial L}{\partial A} = \frac{1}{4} \left( \begin{array}{cccc}
+            \frac{\partial L}{\partial B_{11}}&\frac{\partial L}{\partial B_{11}}&\frac{\partial L}{\partial B_{12}}&\frac{\partial L}{\partial B_{12}} \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial B_{11}}&\frac{\partial L}{\partial B_{11}}&\frac{\partial L}{\partial B_{12}}&\frac{\partial L}{\partial B_{12}} \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial B_{21}}&\frac{\partial L}{\partial B_{21}}&\frac{\partial L}{\partial B_{22}}&\frac{\partial L}{\partial B_{22}} \\ \rule{0mm}{5mm}
+            \frac{\partial L}{\partial B_{21}}&\frac{\partial L}{\partial B_{21}}&\frac{\partial L}{\partial B_{22}}&\frac{\partial L}{\partial B_{22}}\\ 
+            \end{array} \right)
+        $$ 
+    </bdo>
+    </h4>
+    <h3>
+        إذاً في النهاية ممكن نلخص الـbackpropagation في الـCNNs  في خطوتين(بالإضافة إلى تأثير الـpooling على الـgradient flow):
+    </h3>
+    <bdo dir="ltr">
+        $$
+        \frac{\partial L}{\partial F} = Convolution(\text{Input } X, \text{ Loss gradient } \frac{\partial L}{\partial O}) 
+        \hspace{25mm} \\ \rule{0mm}{8mm}
+        \frac{\partial L}{\partial x} = \text{Full Convolution}(180^o \text{ Rotated filter } F, \text{ Loss gradient } \frac{\partial L}{\partial O})
+        $$ 
+    </bdo>
+</div>
+<br>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
+<div dir="rtl" style="text-align: justify">
+    <b>
+    لمزيد من المعلومات:
+    </b>
+</div>
+<ul>
+<li><a href="https://pavisj.medium.com/convolutions-and-backpropagations-46026a8f5d2c" target="_blank" rel="noopener noreffer">Convolutions and Backpropagations</a></li>
+<li><a href="https://www.jefkine.com/general/2016/09/05/backpropagation-in-convolutional-neural-networks/" target="_blank" rel="noopener noreffer">Backpropagation In Convolutional Neural Networks</a>
+<br></li>
+</ul>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black"></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-02-28</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ" data-hashtags="Deep Learning,Convolutions,CNN,Convolutional Neural Networks,Backpropagation,Neural Networks"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-hashtag="Deep Learning"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" data-title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/deep-learning/">Deep Learning</a>,&nbsp;<a href="/tags/convolutions/">Convolutions</a>,&nbsp;<a href="/tags/cnn/">CNN</a>,&nbsp;<a href="/tags/convolutional-neural-networks/">Convolutional Neural Networks</a>,&nbsp;<a href="/tags/backpropagation/">Backpropagation</a>,&nbsp;<a href="/tags/neural-networks/">Neural Networks</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/" class="prev" rel="prev" title="؟Vanishing gradientsكيف نتعامل مع مشكلة الـ"><i class="fas fa-angle-left fa-fw"></i>؟Vanishing gradientsكيف نتعامل مع مشكلة الـ</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.90.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Ahmad Zaki</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"id-1":"Something I Learned","id-2":"Something I Learned"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

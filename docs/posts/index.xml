@@ -4,7 +4,18 @@
         <link>https://Ahmad-Zaki.github.io/posts/</link>
         <description>All Posts | Something I learned</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
-            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Mon, 28 Feb 2022 14:20:12 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/posts/" rel="self" type="application/rss+xml" /><item>
+    <title>؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ</title>
+    <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/</link>
+    <pubDate>Mon, 28 Feb 2022 14:20:12 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/</guid>
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
+    <h4>
+        في الغالب كانت بداية معرفتك بالـbackbropagation عن طريق شرحه على Fully connected neural network, لكن بعد ما تتطرق لأشكال أخرى من الـneural netowrks مثل الـconvolutional neural network بتلاقي إن الـbackpropagation مستخدم فيهم كـalgorithm رئيسي لحساب الـgradients في كل layer لكن بدون ذكر تفاصيل أكثر عنها، لإنك بالفعل غير مضطر لمعرفة تفاصيل الرياضية قبل استخدامها، ومع ذلك فمعرفة كيف تتم داخل الـConv layers  قد يكون سؤال مر ببالك ولو من باب الفضول في وقت من الأوقات.
+    </h4>
+</div>]]></description>
+</item><item>
     <title>؟Vanishing gradientsكيف نتعامل مع مشكلة الـ</title>
     <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/</link>
     <pubDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</pubDate>
