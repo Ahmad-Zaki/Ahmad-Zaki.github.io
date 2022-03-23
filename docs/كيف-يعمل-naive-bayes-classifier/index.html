@@ -1,0 +1,304 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>؟Naive Bayes Classifier كيف يعمل - Something I learned</title><meta name="Description" content=""><meta property="og:title" content="؟Naive Bayes Classifier كيف يعمل" />
+<meta property="og:description" content="
+    
+        Naive Bayes Classifier هو أحد أنواع الـprobabilistic classifiers ومبني على تطبيق بسيط ومباشر لأحد أهم نظريات الاحتمالات: Bayes theorem. ورغم إنه يضع افتراض بسيط وفي الغالب غير مناسب للـdata لكنه سريع ومرن وبيقدم نتائج جيدة ويستخدم في الكثير من التطبيقات كـbaseline.
+    
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" /><meta property="og:image" content="https://Ahmad-Zaki.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-03-22T22:00:33+02:00" />
+<meta property="article:modified_time" content="2022-03-22T22:00:33+02:00" /><meta property="og:site_name" content="Something I learned" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://Ahmad-Zaki.github.io/logo.png"/>
+
+<meta name="twitter:title" content="؟Naive Bayes Classifier كيف يعمل"/>
+<meta name="twitter:description" content="
+    
+        Naive Bayes Classifier هو أحد أنواع الـprobabilistic classifiers ومبني على تطبيق بسيط ومباشر لأحد أهم نظريات الاحتمالات: Bayes theorem. ورغم إنه يضع افتراض بسيط وفي الغالب غير مناسب للـdata لكنه سريع ومرن وبيقدم نتائج جيدة ويستخدم في الكثير من التطبيقات كـbaseline.
+    
+"/>
+<meta name="application-name" content="مما تعلمت">
+<meta name="apple-mobile-web-app-title" content="مما تعلمت"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" /><link rel="prev" href="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "؟Naive Bayes Classifier كيف يعمل",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Ahmad-Zaki.github.io\/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier\/"
+        },"genre": "posts","keywords": "Machine Learning, Classification, Bayes Theorem, Naive Bayes Classifier, Data Science","wordcount":  1093 ,
+        "url": "https:\/\/Ahmad-Zaki.github.io\/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier\/","datePublished": "2022-03-22T22:00:33+02:00","dateModified": "2022-03-22T22:00:33+02:00","publisher": {
+            "@type": "Organization",
+            "name": "Ahmad Zaki"},"author": {
+                "@type": "Person",
+                "name": "Ahmad Zaki"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Something I learned"><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Look for an article" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Something I learned"><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Look for an article" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">؟Naive Bayes Classifier كيف يعمل</h1><h2 class="single-subtitle">Classificationفي الـ Bayes Rule كيف نستخدم</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Ahmad Zaki</a></span>&nbsp;<span class="post-category">included in <a href="/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/"><i class="far fa-folder fa-fw"></i>مما تعلمت</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-03-22">2022-03-22</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;1093 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;6 minutes&nbsp;</div>
+        </div><div class="content" id="content"><div dir="rtl" style="text-align: justify">
+    <h4>
+        Naive Bayes Classifier هو أحد أنواع الـprobabilistic classifiers ومبني على تطبيق بسيط ومباشر لأحد أهم نظريات الاحتمالات: Bayes theorem. ورغم إنه يضع افتراض بسيط وفي الغالب غير مناسب للـdata لكنه سريع ومرن وبيقدم نتائج جيدة ويستخدم في الكثير من التطبيقات كـbaseline.
+    </h4>
+</div>
+<div dir="rtl" style="text-align: justify">
+    <h3>
+        لكن إزاي ممكن نستخدم Bayes theorem في الـclassification؟
+    </h3>
+    <h4>
+        لنفترض إن X عبارة data point، وإن X ممكن تنتمي لواحد من 2 classes وهم<bdo dir="ltr">$y_{1}, y_{2}$ </bdo>، ممكن خلال Bayes theorem أقدر أحسب احتمال أن X تنتمي لـ<bdo dir="ltr"> $y_{1}$</bdo> واحتمال انها تنتمي لـ <bdo dir="ltr"> $y_{2}$</bdo> كالآتي:
+        <bdo dir="ltr">
+            $$
+            P(y_{1}|X) = \frac{P(X|y_{1})×P(y_{1})}{P(X)}, \hspace{5mm}
+            P(y_{2}|X) = \frac{P(X|y_{2})×P(y_{2})}{P(X)}
+            $$ 
+        </bdo>
+        الفكرة الرئيسية في Bayes theorem هي إنك من الـdata بتبني اعتقاد مبدأي (Prior Belief) عن كل class، بعد كده لما تشوف data points (Evidence) هتغير من اعتقادك المبدأي للاعتقاد جديد (Posterior Belief) وذلك بناء على مدى صحة الـevedence (Likelihood).
+    </h4>    
+    <h3>
+        إزاي بيحصل الكلام ده؟
+    </h3>
+    <h4>
+        في البداية أول معلومة تقدر تتعلمها من الـdata هي احتمال ظهور كل class في الداتا <bdo dir="ltr"> $P(y_{1}),P(y_{2})$</bdo>، وهو ده الـprior belief: إحتمال إن أي data point تنتمي للـclass الأول أو الثاني، والفكرة منه هي إن يبقى عندك اعتقاد مبدأي عن احتمال انتماء data point معينة لأي class قبل ما تعرف أي تفاصيل عن الـdata point دى.
+        <br><br>
+        خلينا نطرحها بمثال: لنفترض إننا بنحاول نفرق بين الـspam emails والـvalid emails، لما بصيت على الـdata لقيت إن 80% منها عبارة عن valid emails و 20% عبارة عن spam email. دلوقتي لو سألتك عن احتمال إن رسالة معينة تكون spam، بدون معرفة أي تفاصيل عن الرسالة، مش هتقدر تحكم عليها غير بالاعتقاد المبدأي الى كونته من الـdata المتاحة، وهو ده الـprior belief (P(spam)).
+        <br><br>
+        لكن لو بدأت اديلك بعض المعلومات (features) عن الرسالة، زى بعض الكلمات الموجودة في الرسالة أو مصدرها، هتبدأ تغير اعتقادك المبدأي، لإنك لقيت evidence يرجح كفة class عن الأخرى، لتصل إلى اعتقاد جديد (Posterior belief P(spam|features)).
+        <br><br>
+        لكن بأي نسبة هيتغير اعتقادك الجديد عن اعتقادك المبدأي؟ هيتغير بنسبة مدى صحة الـevidence على اعتبار إن الرسالة دى فعلا spam. وده ما يسمى بالـlikelihood (P(features|spam)). 
+        <p align="center">
+            <img src="/lib/img/bayes_theorem.jpg" alt="Bayes Theorem"/>
+            <br>
+            Fig 1: Bayes Rule Explained
+            <br> 
+            Source: <a href="https://luminousmen.com/post/data-science-bayes-theorem">Click here</a> 
+        </p>
+        <br> 
+        بناء على المثال ده، نقدر نمثل Bayes Rule بالمعادلة التالية:
+        <bdo dir="ltr">
+            $$
+            Posterior = \frac{Likelihood×Prior}{Evidence}
+            $$ 
+        </bdo>
+    </h4> 
+    <h3>
+        حتى الآن كل الى عملناه هو تطبيق Bayes Rule بشكل مباشر، الخطوة التالية هى إننا نحسب كل term في المعادلة عشان نقدر نحسب الـposterior ونوصل لنتيجة.
+    </h3>
+    <h4>
+        الـPrior هو أسهل حاجة نقدر نحسبها في المعادلة، لإنه عبارة عن نسبة الـclass في الـdata، بالإضافة إلى إن لو عندك domain knowledge عن المشكلة قبل ما تبدأ تحلها، ممكن تستخدمها في إنك تحدد الـprior بنفسك.
+        <br><br> 
+        بالنسبة للـ likelihood <bdo dir="ltr">($P(y_{k}|X)$)</bdo> فهنا لازم ناخد في الاعتبار إن X عبارة عن data point فيها أكتر من feature, بمعنى إن <bdo dir="ltr">$X= (x_{1}, x_{2}, ...,x_{n})$</bdo> وبالتالي هنحسب <bdo dir="ltr">$P(y_{k}|x_{1}, x_{2}, ...,x_{n})$</bdo>. عشان نحسب الـterm هنستغل إننا نقدر نعبّر عن البسط كالآتي:
+        <bdo dir="ltr">
+            $$
+            P(y_{k}|x_{1}, x_{2}, ...,x_{n})P(y_{k}) = P(y_{k},x_{1}, x_{2}, ...,x_{n})
+            $$ 
+        </bdo>
+        حيث أن <bdo dir="ltr">$P(y_{k},x_{1}, x_{2}, ...,x_{n})$</bdo> تعبر عن الـjoint probability distribution بين الـclass وكل feature  في الـdatapoint، من خلال الـdistribution ده ممكن نرتب الـvariables ونفكه من جديد باستخدام سلسلة من الـconditional probabilities:
+        <bdo dir="ltr">
+            $$
+            P(x_{1}, x_{2}, ...,x_{n},y_{k}) = P(x_{1}| x_{2}, ...,x_{n},y_{k}) P(x_{2}, ...,x_{n},y_{k}) \hspace{70mm} \\ \rule{0mm}{5mm}
+            \hspace{6mm} = P(x_{1}| x_{2}, ...,x_{n},y_{k}) P(x_{2}| x_{3}, ...,x_{n},y_{k}) P(x_{3}, ...,x_{n},y_{k})\\ \rule{0mm}{5mm}
+            = ... \hspace{70mm} \\ \rule{0mm}{5mm}
+            \hspace{28mm}= P(x_{1}| x_{2}, ...,x_{n},y_{k}) P(x_{2}| x_{3}, ...,x_{n},y_{k})... P(x_{n-1}|x_{n},y_{k}) P(x_{n}|y_{k})P(y_{k})
+            $$ 
+        </bdo>
+    </h4>
+    <h3>
+        دلوقتي عندنا أكتر من conditional probability term بين كل الـfeatures وبعضها بالإضافة للـclass كمان، هنحسبهم كلهم إزاي؟
+    </h3>
+    <h4>
+        Naive Bayes بيضع افتراض بسيط جداً عشان يحل المشكلة دى: بيفترض إن الـfeatures مستقلة عن بعضها، بمعني إن مفيش أي علاقة تربط كل feature بالآخرى. الإفتراض الساذج ده هو سبب تسميته بـNaive classifier، لإنه لا يضع اعتبار للعلاقة بين كل feature والأخرى. لكنه بيبسّط المعادلة السابقة للشكل ده:
+        <bdo dir="ltr">
+            $$
+            P(x_{1}, x_{2}, ...,x_{n},y_{k})  = P(x_{1}|\cancel{ x_{2}, ...,x_{n}},y_{k}) P(x_{2}| \cancel{x_{3}, ...,x_{n}},y_{k})... P(x_{n-1}|\cancel{x_{n}},y_{k}) P(x_{n}|y_{k})P(y_{k}) \\ \rule{0mm}{5mm}
+            = P(x_{1}|y_{k})P(x_{2}|y_{k})...P(x_{n}|y_{k})P(y_{k}) \hspace{22mm} \\ \rule{0mm}{7mm}
+            = P(y_{k})\prod_{i=1}^{n} P(x_{i}|y_{k}) \hspace{46mm} 
+            $$ 
+        </bdo>
+        بالنسبة للـevidence (P(X))، فممكن نستغل ميزة إن الـclasses كلها disjoint (الـsample لا يمكن أن تنتمي لأكتر من class واحد في نفس الوقت)ونحسبه عن طريق الـmarginal probability كالآتي:
+        <p align="center">
+            <img src="/lib/img/Marginal Probability.png" alt="Marginalization"/>
+            <br>
+            Fig 2: Marginal Probability Rule.
+        </p>
+        <bdo dir="ltr">
+            $$
+            P(X) = \sum_{j=1}^{k} P(X,y_{j}) = \sum_{j=1}^{k} P(X|y_{j})P(y_{j})
+            $$ 
+        </bdo>
+        وبناءً على افتراض الـindependence، نقدر نبسّط المعادلة السابقة بنفس الطريقة:
+        <bdo dir="ltr">
+            $$
+            P(X) = \sum_{j=1}^{k} P(X|y_{j})P(y_{j}) = \sum_{j=1}^{k}P(x_{1}, x_{2}, ...,x_{n},y_{k}) = \sum_{j=1}^{k} (P(y_{j})\prod_{i=1}^{n} P(x_{i}|y_{j}))
+            $$ 
+        </bdo>
+        ليصبح الشكل النهائي لمعادلة Bayes كالتالي:
+        <bdo dir="ltr">
+            $$
+            P(y_{k}|X) = \frac{P(y_{k}) \prod_{i=1}^{n} P(x_{i}|y_{k})}{\sum_{j=1}^{k} (P(y_{j}) \prod_{i=1}^{n} P(x_{i}|y_{j}))}
+            $$ 
+        </bdo>
+        الى نقدر نلاحظه من المعادلة دى هو إن المقام ثابت بغض النظر عن قيمة الـclass الى بنحسب الـprobability الخاصة بها، فبالتالي لو انا مش مهتم بالـprobability الخاصة بكل class وكل هدفي إن انا اعرف اي class تنتمي له X، فمش ضروري أحسب المقام وهكتفي بحساب البسط فقط:
+        <bdo dir="ltr">
+            $$
+            P(y_{k}|X) \propto{P(y_{k}) \prod_{i=1}^{n} P(x_{i}|y_{k})} \\
+            \therefore \text{Predicted Class } (\hat{y}) = argmax_{y_k} (P(y_{k}) \prod_{i=1}^{n} P(x_{i}|y_{k}))
+            $$ 
+        </bdo>
+        الملاحظة الثانية هى إن حتى الآن كل الشغل ده لا يضع أي افتراض عن علاقة الـfeatures بالـclass، بمعني آخر إحنا حتى الآن محددناش ايه هو الـprobability distribution الخاص بـ <bdo dir="ltr">$P(x_{i}|y_{k})$</bdo> ، وهنا تظهر مرونة Naive Bayes كـclassifier: لإن الـdistribution ده إحنا الى بنحدده على حسب الـfeatures، فعلى سبيل المثال لو عندي categorical features فممكن اعتبر إن <bdo dir="ltr">$P(x_{i}|y_{k})$</bdo> هى نسبة ظهور <bdo dir="ltr">$x_{i}$</bdo> في <bdo dir="ltr">$y_{k}$</bdo>.
+        <br><br>
+        أما لو كان عندي Numerical features فممكن افترض إن <bdo dir="ltr">$P(x_{i}|y_{k})$</bdo> عبارة عن Gaussian distribution واحسبه كالتالي:
+        <bdo dir="ltr">
+            $$
+            P(x_{i}|y_{k}) = \frac{1}{\sqrt{2\pi\sigma_{k}}}e^{\frac{-1}{2} (\frac{x-\mu_{k}}{\sigma_{k}})^2}
+            $$ 
+        </bdo>
+        حيث أن <bdo dir="ltr">$\mu_{k}, \sigma_{k}$</bdo> هي الـmean و الـstandard deviation الخاص بقيم <bdo dir="ltr">$x_{i}$</bdo> التي تنتمي إلى <bdo dir="ltr">$y_{k}$ </bdo>.
+        <br><br>
+        وحتى لو كان الـgaussian distribution غير ملائم للداتا فممكن تستخدم أي طريقة من طرق الـkernel density estimation عشان توصل لـdistribution أفضل وتستخدمه.
+        <br><br>
+        ولو افترضت إن الـdistribution هو multinomial distribution هنتجه إلى الـmulitinumial naive bayes وهو أحد أشهر الـmodels المستخدمة في الـtext classification.
+    </h4>
+    <h3>
+        مزايا وعيوب Naive Bayes:
+    </h3>
+    <h4>
+        Naive Bayes هو بالأصل probabilistic classifier وبالتالي بيستفيد جداً من الـdomain knowledge الى ممكن تقدمها له كـpriors أو كـdistribution للـlikelihood وممكن يحقق نتائج جيدة جداً بكمية data صغيرة, بالإضافة إلى أن الـtraining سريع لإنه بيتم عن طريق closed form formula، وبالتالي مفيش iterations و parameters updates.
+        <br><br>
+        لكن على الجانب الآخر، ف افتراض الـindependence وهو نادر الحدوث في أي real dataset بيؤثر على أداءه، بالرغم من إنه ممكن يطلع نتائج جيدة حتى لو كان فيه dependence بين الـfeatures، وبالتالي نقدر نقول إن naive bayes يعاني من high bias/low variance.
+        <br><br>
+        مشكلة آخرى ممكن تحدث تسمى بالـZero-frequency problem، وبتحصل لو كانت أحد الـfeatures لا تظهر في أحد الclasses على الإطلاق، وبالتالي تصبح الـlikelihood الخاصة بها صفر، ده بيؤدي إلى إن أي sample تحتوي الـfeature دى مش هيكون عندها أي احتمال إنها تنتمي للـclass دى بغض النظر عن باقي قيم الـfeatures.
+        <br><br>
+        المشكلة دى ممكن نحلها عن طريق الـlaplacian smoothing وهو إننا نضيف 1 على الـcount الخاص بكل feature في كل الـclasses بحيث تكون كل الـfeatures موجودة في كل الـclasses, وعشان نحافظ على الـprobability distribution, هنضيف على المقام عدد الـones الى ضفناهم عشان يكون مجموع الـprobabilities بواحد.
+    </h4>
+</div>
+<br>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
+<div dir="rtl" style="text-align: justify">
+    <b>
+    لمزيد من المعلومات:
+    </b>
+</div>
+<ul>
+<li><a href="https://en.wikipedia.org/wiki/Naive_Bayes_classifier" target="_blank" rel="noopener noreffer">Naive Bayes classifier</a></li>
+<li><a href="https://www.youtube.com/watch?v=O2L2Uv9pdDA" target="_blank" rel="noopener noreffer">Naive Bayes, Clearly Explained!!!</a>
+<br></li>
+</ul>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black"></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-03-22</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-title="؟Naive Bayes Classifier كيف يعمل" data-hashtags="Machine Learning,Classification,Bayes Theorem,Naive Bayes Classifier,Data Science"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-hashtag="Machine Learning"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-title="؟Naive Bayes Classifier كيف يعمل" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-title="؟Naive Bayes Classifier كيف يعمل"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-title="؟Naive Bayes Classifier كيف يعمل" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-title="؟Naive Bayes Classifier كيف يعمل" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" data-title="؟Naive Bayes Classifier كيف يعمل"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/machine-learning/">Machine Learning</a>,&nbsp;<a href="/tags/classification/">Classification</a>,&nbsp;<a href="/tags/bayes-theorem/">Bayes Theorem</a>,&nbsp;<a href="/tags/naive-bayes-classifier/">Naive Bayes Classifier</a>,&nbsp;<a href="/tags/data-science/">Data Science</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/" class="prev" rel="prev" title="؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ"><i class="fas fa-angle-left fa-fw"></i>؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.90.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Ahmad Zaki</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":10},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"id-1":"Something I Learned","id-2":"Something I Learned"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>

@@ -4,7 +4,18 @@
         <link>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</link>
         <description>مما تعلمت - Category - Something I learned</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
-            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Mon, 28 Feb 2022 14:20:12 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 22 Mar 2022 22:00:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/" rel="self" type="application/rss+xml" /><item>
+    <title>؟Naive Bayes Classifier كيف يعمل</title>
+    <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/</link>
+    <pubDate>Tue, 22 Mar 2022 22:00:33 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/</guid>
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
+    <h4>
+        Naive Bayes Classifier هو أحد أنواع الـprobabilistic classifiers ومبني على تطبيق بسيط ومباشر لأحد أهم نظريات الاحتمالات: Bayes theorem. ورغم إنه يضع افتراض بسيط وفي الغالب غير مناسب للـdata لكنه سريع ومرن وبيقدم نتائج جيدة ويستخدم في الكثير من التطبيقات كـbaseline.
+    </h4>
+</div>]]></description>
+</item><item>
     <title>؟ConvNetsفي الـ Backpropagationكيف يتم تنفيذ الـ</title>
     <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/</link>
     <pubDate>Mon, 28 Feb 2022 14:20:12 &#43;0200</pubDate>
