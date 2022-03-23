@@ -50,7 +50,7 @@ categories: [مما تعلمت]
         <p align="center">
             <img src="/lib/img/bayes_theorem.jpg" alt="Bayes Theorem"/>
             <br>
-            Fig 1: Bayes Rule Explained
+            Fig 1: Bayes Rule.
             <br> 
             Source: <a href="https://luminousmen.com/post/data-science-bayes-theorem">Click here</a> 
         </p>
@@ -68,10 +68,10 @@ categories: [مما تعلمت]
     <h4>
         الـPrior هو أسهل حاجة نقدر نحسبها في المعادلة، لإنه عبارة عن نسبة الـclass في الـdata، بالإضافة إلى إن لو عندك domain knowledge عن المشكلة قبل ما تبدأ تحلها، ممكن تستخدمها في إنك تحدد الـprior بنفسك.
         <br><br> 
-        بالنسبة للـ likelihood <bdo dir="ltr">($P(y_{k}|X)$)</bdo> فهنا لازم ناخد في الاعتبار إن X عبارة عن data point فيها أكتر من feature, بمعنى إن <bdo dir="ltr">$X= (x_{1}, x_{2}, ...,x_{n})$</bdo> وبالتالي هنحسب <bdo dir="ltr">$P(y_{k}|x_{1}, x_{2}, ...,x_{n})$</bdo>. عشان نحسب الـterm هنستغل إننا نقدر نعبّر عن البسط كالآتي:
+        بالنسبة للـ likelihood <bdo dir="ltr">($P(X|y_{k})$)</bdo> فهنا لازم ناخد في الاعتبار إن X عبارة عن data point فيها أكتر من feature, بمعنى إن <bdo dir="ltr">$X= (x_{1}, x_{2}, ...,x_{n})$</bdo> وبالتالي هنحسب <bdo dir="ltr">$P(x_{1}, x_{2}, ...,x_{n}|y_{k})$</bdo>. عشان نحسب الـterm هنستغل إننا نقدر نعبّر عن البسط كالآتي:
         <bdo dir="ltr">
             $$
-            P(y_{k}|x_{1}, x_{2}, ...,x_{n})P(y_{k}) = P(y_{k},x_{1}, x_{2}, ...,x_{n})
+            P(x_{1}, x_{2}, ...,x_{n}|y_{k})P(y_{k}) = P(y_{k},x_{1}, x_{2}, ...,x_{n})
             $$ 
         </bdo>
         حيث أن <bdo dir="ltr">$P(y_{k},x_{1}, x_{2}, ...,x_{n})$</bdo> تعبر عن الـjoint probability distribution بين الـclass وكل feature  في الـdatapoint، من خلال الـdistribution ده ممكن نرتب الـvariables ونفكه من جديد باستخدام سلسلة من الـconditional probabilities:
@@ -119,7 +119,7 @@ categories: [مما تعلمت]
             P(y_{k}|X) = \frac{P(y_{k}) \prod_{i=1}^{n} P(x_{i}|y_{k})}{\sum_{j=1}^{k} (P(y_{j}) \prod_{i=1}^{n} P(x_{i}|y_{j}))}
             $$ 
         </bdo>
-        الى نقدر نلاحظه من المعادلة دى هو إن المقام ثابت بغض النظر عن قيمة الـclass الى بنحسب الـprobability الخاصة بها، فبالتالي لو انا مش مهتم بالـprobability الخاصة بكل class وكل هدفي إن انا اعرف اي class تنتمي له X، فمش ضروري أحسب المقام وهكتفي بحساب البسط فقط:
+        الى نقدر نلاحظه من المعادلة دى هو إن المقام ثابت بغض النظر عن الـclass الى بنحسب الـprobability الخاصة بها، فبالتالي لو انا مش مهتم بالـprobability الخاصة بكل class وكل هدفي إن انا اعرف اي class تنتمي له X، فمش ضروري أحسب المقام وهكتفي بحساب البسط فقط:
         <bdo dir="ltr">
             $$
             P(y_{k}|X) \propto{P(y_{k}) \prod_{i=1}^{n} P(x_{i}|y_{k})} \\
@@ -150,7 +150,7 @@ categories: [مما تعلمت]
         <br><br>
         مشكلة آخرى ممكن تحدث تسمى بالـZero-frequency problem، وبتحصل لو كانت أحد الـfeatures لا تظهر في أحد الclasses على الإطلاق، وبالتالي تصبح الـlikelihood الخاصة بها صفر، ده بيؤدي إلى إن أي sample تحتوي الـfeature دى مش هيكون عندها أي احتمال إنها تنتمي للـclass دى بغض النظر عن باقي قيم الـfeatures.
         <br><br>
-        المشكلة دى ممكن نحلها عن طريق الـlaplacian smoothing وهو إننا نضيف 1 على الـcount الخاص بكل feature في كل الـclasses بحيث تكون كل الـfeatures موجودة في كل الـclasses, وعشان نحافظ على الـprobability distribution, هنضيف على المقام عدد الـones الى ضفناهم عشان يكون مجموع الـprobabilities بواحد.
+        المشكلة دى ممكن نحلها عن طريق الـlaplacian smoothing وهو إننا نضيف 1 على الـcount الخاص بكل feature في كل الـclasses بحيث تكون كل الـfeatures موجودة في كل الـclasses, وعشان نحافظ على الـprobability distribution, هنضيف على المقام عدد الـones الى ضفناهم على كل الـfeatures عشان يكون مجموع الـprobabilities بواحد.
     </h4>
 </div>
 
