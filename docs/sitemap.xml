@@ -2,27 +2,40 @@
     xmlns="http://www.sitemaps.org/schemas/sitemap/0.9"
     xmlns:xhtml="http://www.w3.org/1999/xhtml"
     ><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/bayes-theorem/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/categories/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/classification/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/data-science/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/machine-learning/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/naive-bayes-classifier/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/posts/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/backpropagation/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/cnn/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/convolutional-neural-networks/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/convolutions/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/deep-learning/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/neural-networks/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.7</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/categories/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/content-loss/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/deep-learning/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/discriminator/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/edsr/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/categories/full-projects/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/gan/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/generative-adversarial-networks/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/generator/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/image-processing/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/image-super-resolution/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/keras/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/posts/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/srgan/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/srresnet/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/super-resolution/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/tensorflow/</loc><lastmod>2022-04-04T03:12:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>1</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/bayes-theorem/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/classification/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/data-science/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/machine-learning/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/naive-bayes-classifier/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/categories/%D9%85%D9%85%D8%A7-%D8%AA%D8%B9%D9%84%D9%85%D8%AA/</loc><lastmod>2022-03-22T22:00:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.8</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/backpropagation/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/cnn/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/convolutional-neural-networks/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/convolutions/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/tags/neural-networks/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
+            <loc>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%AA%D9%85-%D8%A7%D9%84%D9%80backpropagation-%D9%81%D9%8A-%D8%A7%D9%84%D9%80covolutional-neural-networks/</loc><lastmod>2022-02-28T14:20:12&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/batch-normalization/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/elu/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
-            <loc>https://Ahmad-Zaki.github.io/tags/keras/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/leaky-relu/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/sigmoid/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>
             <loc>https://Ahmad-Zaki.github.io/tags/tanh/</loc><lastmod>2021-12-14T16:46:33&#43;02:00</lastmod><changefreq>weekly</changefreq><priority>0.5</priority></url><url>

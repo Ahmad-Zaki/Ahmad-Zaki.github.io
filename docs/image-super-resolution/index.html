@@ -1,0 +1,1337 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="robots" content="noodp" />
+        <meta http-equiv="X-UA-Compatible" content="IE=edge, chrome=1">
+        <title>Image Super-Resolution - Something I learned</title><meta name="Description" content=""><meta property="og:title" content="Image Super-Resolution" />
+<meta property="og:description" content="
+    
+        Image Super-resolution (SR) هو الإسم المتداول لعملية تحويل الصورة من Low resolution إلى high resolution عن طريق زيادة عدد الـpixels في الصورة بحيث تحافظ على التفاصيل الموجودة فيها، وهي من أكثر التقنيات أهمية في مجال الـImage processing والـcomputer vision وتدخل في العديد من التطبيقات في الواقع زي تحسين الصور الطبية (Medical Imaging) وصور الأقمار الصناعية وكاميرات المراقبة الـlive-streaming وغيرها الكثير.
+    
+" />
+<meta property="og:type" content="article" />
+<meta property="og:url" content="https://Ahmad-Zaki.github.io/image-super-resolution/" /><meta property="og:image" content="https://Ahmad-Zaki.github.io/logo.png"/><meta property="article:section" content="posts" />
+<meta property="article:published_time" content="2022-04-04T03:12:33+02:00" />
+<meta property="article:modified_time" content="2022-04-04T03:12:33+02:00" /><meta property="og:site_name" content="Something I learned" />
+
+<meta name="twitter:card" content="summary_large_image"/>
+<meta name="twitter:image" content="https://Ahmad-Zaki.github.io/logo.png"/>
+
+<meta name="twitter:title" content="Image Super-Resolution"/>
+<meta name="twitter:description" content="
+    
+        Image Super-resolution (SR) هو الإسم المتداول لعملية تحويل الصورة من Low resolution إلى high resolution عن طريق زيادة عدد الـpixels في الصورة بحيث تحافظ على التفاصيل الموجودة فيها، وهي من أكثر التقنيات أهمية في مجال الـImage processing والـcomputer vision وتدخل في العديد من التطبيقات في الواقع زي تحسين الصور الطبية (Medical Imaging) وصور الأقمار الصناعية وكاميرات المراقبة الـlive-streaming وغيرها الكثير.
+    
+"/>
+<meta name="application-name" content="مما تعلمت">
+<meta name="apple-mobile-web-app-title" content="مما تعلمت"><meta name="theme-color" content="#ffffff"><meta name="msapplication-TileColor" content="#da532c"><link rel="shortcut icon" type="image/x-icon" href="/favicon.ico" />
+        <link rel="icon" type="image/png" sizes="32x32" href="/favicon-32x32.png">
+        <link rel="icon" type="image/png" sizes="16x16" href="/favicon-16x16.png"><link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png"><link rel="mask-icon" href="/safari-pinned-tab.svg" color="#5bbad5"><link rel="manifest" href="/site.webmanifest"><link rel="canonical" href="https://Ahmad-Zaki.github.io/image-super-resolution/" /><link rel="prev" href="https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" /><link rel="stylesheet" href="/lib/normalize/normalize.min.css"><link rel="stylesheet" href="/css/style.min.css"><link rel="stylesheet" href="/lib/fontawesome-free/all.min.css"><link rel="stylesheet" href="/lib/animate/animate.min.css"><script type="application/ld+json">
+    {
+        "@context": "http://schema.org",
+        "@type": "BlogPosting",
+        "headline": "Image Super-Resolution",
+        "inLanguage": "en",
+        "mainEntityOfPage": {
+            "@type": "WebPage",
+            "@id": "https:\/\/Ahmad-Zaki.github.io\/image-super-resolution\/"
+        },"genre": "posts","keywords": "Deep Learning, GAN, Generative Adversarial Networks, Keras, Tensorflow, Super Resolution, Content Loss, Generator, Discriminator, Image Processing, SRGAN, SRRESNET, EDSR","wordcount":  4206 ,
+        "url": "https:\/\/Ahmad-Zaki.github.io\/image-super-resolution\/","datePublished": "2022-04-04T03:12:33+02:00","dateModified": "2022-04-04T03:12:33+02:00","publisher": {
+            "@type": "Organization",
+            "name": "Ahmad Zaki"},"author": {
+                "@type": "Person",
+                "name": "Ahmad Zaki"
+            },"description": ""
+    }
+    </script></head>
+    <body header-desktop="fixed" header-mobile="auto"><script type="text/javascript">(window.localStorage && localStorage.getItem('theme') ? localStorage.getItem('theme') === 'dark' : ('auto' === 'auto' ? window.matchMedia('(prefers-color-scheme: dark)').matches : 'auto' === 'dark')) && document.body.setAttribute('theme', 'dark');</script>
+
+        <div id="mask"></div><div class="wrapper"><header class="desktop" id="header-desktop">
+    <div class="header-wrapper">
+        <div class="header-title">
+            <a href="/" title="Something I learned"><span id="id-1" class="typeit"></span></a>
+        </div>
+        <div class="menu">
+            <div class="menu-inner"><a class="menu-item" href="/posts/"> Posts </a><a class="menu-item" href="/tags/"> Tags </a><a class="menu-item" href="/categories/"> Categories </a><span class="menu-item delimiter"></span><span class="menu-item search" id="search-desktop">
+                        <input type="text" placeholder="Look for an article" id="search-input-desktop">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-desktop" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-desktop" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-desktop">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </span><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                    <i class="fas fa-adjust fa-fw"></i>
+                </a>
+            </div>
+        </div>
+    </div>
+</header><header class="mobile" id="header-mobile">
+    <div class="header-container">
+        <div class="header-wrapper">
+            <div class="header-title">
+                <a href="/" title="Something I learned"><span id="id-2" class="typeit"></span></a>
+            </div>
+            <div class="menu-toggle" id="menu-toggle-mobile">
+                <span></span><span></span><span></span>
+            </div>
+        </div>
+        <div class="menu" id="menu-mobile"><div class="search-wrapper">
+                    <div class="search mobile" id="search-mobile">
+                        <input type="text" placeholder="Look for an article" id="search-input-mobile">
+                        <a href="javascript:void(0);" class="search-button search-toggle" id="search-toggle-mobile" title="Search">
+                            <i class="fas fa-search fa-fw"></i>
+                        </a>
+                        <a href="javascript:void(0);" class="search-button search-clear" id="search-clear-mobile" title="Clear">
+                            <i class="fas fa-times-circle fa-fw"></i>
+                        </a>
+                        <span class="search-button search-loading" id="search-loading-mobile">
+                            <i class="fas fa-spinner fa-fw fa-spin"></i>
+                        </span>
+                    </div>
+                    <a href="javascript:void(0);" class="search-cancel" id="search-cancel-mobile">
+                        Cancel
+                    </a>
+                </div><a class="menu-item" href="/posts/" title="">Posts</a><a class="menu-item" href="/tags/" title="">Tags</a><a class="menu-item" href="/categories/" title="">Categories</a><a href="javascript:void(0);" class="menu-item theme-switch" title="Switch Theme">
+                <i class="fas fa-adjust fa-fw"></i>
+            </a></div>
+    </div>
+</header>
+<div class="search-dropdown desktop">
+    <div id="search-dropdown-desktop"></div>
+</div>
+<div class="search-dropdown mobile">
+    <div id="search-dropdown-mobile"></div>
+</div>
+<main class="main">
+                <div class="container"><article class="page single"><h1 class="single-title animated flipInX">Image Super-Resolution</h1><h2 class="single-subtitle">deep learningزيادة أبعاد الصورة عن طريق الـ</h2><div class="post-meta">
+            <div class="post-meta-line"><span class="post-author"><a href="/" title="Author" rel=" author" class="author"><i class="fas fa-user-circle fa-fw"></i>Ahmad Zaki</a></span>&nbsp;<span class="post-category">included in <a href="/categories/full-projects/"><i class="far fa-folder fa-fw"></i>Full projects</a></span></div>
+            <div class="post-meta-line"><i class="far fa-calendar-alt fa-fw"></i>&nbsp;<time datetime="2022-04-04">2022-04-04</time>&nbsp;<i class="fas fa-pencil-alt fa-fw"></i>&nbsp;4206 words&nbsp;
+                <i class="far fa-clock fa-fw"></i>&nbsp;20 minutes&nbsp;</div>
+        </div><div class="content" id="content"><div dir="rtl" style="text-align: justify">
+    <h4>
+        Image Super-resolution (SR) هو الإسم المتداول لعملية تحويل الصورة من Low resolution إلى high resolution عن طريق زيادة عدد الـpixels في الصورة بحيث تحافظ على التفاصيل الموجودة فيها، وهي من أكثر التقنيات أهمية في مجال الـImage processing والـcomputer vision وتدخل في العديد من التطبيقات في الواقع زي تحسين الصور الطبية (Medical Imaging) وصور الأقمار الصناعية وكاميرات المراقبة الـlive-streaming وغيرها الكثير.
+    </h4>
+</div>
+<p align="center">
+    <img src="/lib/img/SISR - headline.png" alt="Super Resolution Output"/>
+    <br>
+    Fig 1: Original low-resolution image (right) and its generated high-resolution (Super resolved) counterpart (left)
+</p>
+<div dir="rtl" style="text-align: justify">
+    <h4>
+ممكن نمثل عملية الـsuper resolution عن طريق الـdiagram الموجود في Figure 2، الـdiagram بيوضح إن الصورة الـlow resolution جاية عن طريق تطبيق عملية downsampling على صورة high resolution بالإضافة لبعض الـnoise، فبالتالي أي موديل هنعمله بيحاول يتعلم يعكس العملية دى عشان يوصل من الـlow resolution للـhigh resolution.
+    </h4> 
+        <p align="center">
+            <img src="/lib/img/Sketch of the overall framework of SISR.JPG" alt="Sketch of the overall framework of SISR"/>
+            <br>
+            Fig 2: Sketch of the overall framework of SISR
+            <br> 
+            Source: <a href="https://arxiv.org/abs/1808.03344">Click here</a> 
+        </p>
+    <h4>
+        التحدي في مشكلة الـsuper resolution هو أنها تعتبر ill-posed problem، بمعنى إن فيه عدد كبير من الصور الـhigh resolution ممكن تطلعه من أي صورة low resolution، ومفيش أي طريقة متاحة تقدر تحكم بيها وتقول مين أفضل واحدة إلا لو معاك الصورة الـhigh resolution الأصلية، لذلك في الـproduction مفيش metric ممكن تتابعه وتحكم على آداء الموديل من خلاله.
+    </h4>    
+    <h3>
+     الطرق التقليدية في الـsuper Resolution
+    </h3>
+    <h4>
+    الـsuper resolution كان موجود من فترة كبيرة في الـimage processing قبل حتى قدوم الـdeep learning للساحة تحت مسمى image interpolation، فيه أكثر من طريقة ممكن نعمل بيها interpolation زى الـnearest neighbour، bilinear، bicubic interpolations، الطرق دى بتتنفذ بمعادلات رياضية مباشرة ومش بتحتاج تتعلم أي parameters قبل ما تشتغل، وبالرغم من إنها سريعة ومباشرة إلا إن نتايجها كان غير مرضية وقد تكون غير مقبولة.
+    </h4> 
+        <p align="center">
+            <img src="/lib/img/Comparison_of_1D_and_2D_interpolation.png" alt="Image Interpolation"/>
+            <br>
+            Fig 3: Comparison between NN, Bilinear, and Bicubic Interpolation
+            <br> 
+            Source: <a href="https://en.wikipedia.org/wiki/Bicubic_interpolation">Click here</a> 
+        </p>
+    <h3>
+        استخدام الـdeep learning في الـsuper resolution
+    </h3>
+    <h4>
+        أول محاولات تطبيق الـdeep learning في الـsuper resolution كانت في 2014 عن طريق <a href="https://arxiv.org/abs/1501.00092">SRCNN Model</a>، الموديل البسيط الموضّح في figure 4 بياخد ناتج أحد الطرق التقليدية زى الـbicubic interpolation ويمرره على 3 conv layers عشان يحسن نتيجته.
+        </h4> 
+        <p align="center">
+            <img src="/lib/img/Sketch of the SRCNN architecture.JPG" alt="SRCNN architecture"/>
+            <br>
+            Fig 4: Sketch of the SRCNN architecture
+            <br> 
+            Source: <a href="https://arxiv.org/abs/1808.03344">Click here</a> 
+        </p>
+        <h4>
+        الموديل بيستخدم mean square error كـloss function وقدر يحقق state of the art results في وقت ظهوره في 2015 لكنه يحتوي بعض العيوب:
+        <ol>
+            <li>استخدام bicubic interpolation بينتج smooth images وبالتالي الموديل مش بيقدر يتعلم الـdetails الموجودة في الصورة وممكن يؤدي إلى نتايج غير مرضية.</li>
+            <li>استخدام اي نوع من الـinterpolation بيقيد آداء الموديل بشكل كبير، لإنها بتفترض إن كل الصورة low resolution بتكون ناتجة من نفس الـdownsampling operation لكن في الواقع ده غير صحيح.</li>
+            <li>الموديل بيشتغل على صورة بحجم الـhigh resolution وهي 4 أضعاف حجم الـlow resolution (لو إفترضنا إن الـscaling factor=4) وبالتالي عدد الـoperations الى الموديل بينفذها بيزيد بشكل كبير جداّ مع زيادة حجم الـlow resolution image.</li>
+        </ol>
+        <br>
+        أحد حلول المشاكل دى هو إننا نعمل upsampling في آخر الموديل، ويكون عن طريق trained weights بدل الطرق التقليدية، كده الموديل يقدر يتعلم الـupsampling الى هو محتاجه وبالتالي تفاديت قيود الـinterpolation، وكمان الموديل دلوقتي بيتعامل مع الصورة الـlow resolution بس وبالتالي عدد الـoperations الى بيعملها أصبح أقل.
+        </h4>
+        <p align="center">
+            <img src="/lib/img/post-upsampling.jpg" alt="Post-upsampling Technique"/>
+            <br>
+            Fig 5: Post-upsampling Technique
+            <br> 
+            Source: <a href="https://www.analyticsvidhya.com/blog/2021/05/deep-learning-for-image-super-resolution/">Click here</a> 
+        </p>
+    <h3>
+طرق الـupsampling المستخدمة في الـdeep learning
+    </h3>
+    <h4>
+        الطريقة الأولى تتم باستخدام deconvolution layer أو transposed convolution layer، وفيها بنعمل upsampling للـinput feature map عن طريق nearest neighbour وبعدها نمررها على convolution layer (لاحظ Figure 6)، كده نقدر نسخدم learnable weights في الـupsampling وكمان أصبحت العملية أسرع لإن الـnearest neighbour upsampling بسيط ومفيش فيه أي حسابات.
+        </h4>
+        <p align="center">
+            <img src="/lib/img/deconvolution operation.JPG" alt="deconvolution operation"/>
+            <br>
+            Fig 6: Sketch of the deconvolution layer
+            <br> 
+            Source: <a href="https://arxiv.org/abs/1808.03344">Click here</a> 
+        </p>
+    <h4>
+    المشكلة في الـdeconvolution layer هى إن الـnearest neighbour بيكرر الـpixels الموجودة في الـfeature map وبالتالي بيضيف نوع من الـredundancy وده بيأثر على جودة الـoutput الناتج من الموديل، لذلك ظهرت طريقة آخرى للـupsampling تعتمد بشكل كامل على learnable weights وفي الـefficient sub-pixel convolutions (ESPC)، الفكرة منها هو إن لو عايز أكبّر الصورة ب<bdo dir="ltr">$factor=r$</bdo>، هستخرج feature maps عددها <bdo dir="ltr">$r^{2}$</bdo>، وأرتّب الـpixels المناظرة من كل feature map جنب بعض كما هو موضّح في Figure 7.
+    </h4>
+        <p align="center">
+            <img src="/lib/img/ESPCN.png" alt="Sub-pixel convolution layer"/>
+            <br>
+            Fig 7: Sub-pixel convolution layer with a scaling factor=2
+            <br> 
+            Source: <a href="https://krasserm.github.io/2019/09/04/super-resolution/">Click here</a> 
+        </p>
+    <h3>
+الـmodels المستخدمة في الـsuper resolution
+    </h3>
+    <h4>
+        مع استخدام الـdeep learning في الـsuper resolution ظهرت models وarchitectures كثيرة جداً، بعض الأمثلة موضّحة في Figure 8. كل واحد منهم محتاج مساحة غير صغيرة من المقال لتغطية تفاصيله لذلك هكتفي بالاتنين الى طبقتهم وهم SRResNet و الـEDSR.
+    </h4>
+        <p align="center">
+            <img src="/lib/img/SISR models.JPG" alt="SISR models"/>
+            <br>
+            Fig 8: Sketch of several deep architectures for SISR
+            <br> 
+            Source: <a href="https://arxiv.org/abs/1808.03344">Click here</a> 
+        </p>
+    <h3>
+        <a href="https://arxiv.org/abs/1609.04802">SRResNet Model</a> 
+    </h3>
+    <h4>
+        الـResNet architecture قدمت حل سحري لمشكلة الـvanishing gradients وأتاحت لنا القدرة على تدريب deep models بدون مشاكل، الـSRResNet بتتبنى نفس الفكرة مع بعض الإضافات لتلائم الـsuper resolution، كما هو موضح في figure 8 (c)، الموديل مكوّن من 16 residual block، كل block يحتوى على اتنين conv layer واتنين batch normalization layer بينهم Parametric ReLU، وفي الـoutput بيستخدم اتنين ESPCN بـscaling factor 2 عشان يضاعف حجم الصورة 4 مرّات، وبيستخدم mean square error loss function موضّحة كالآتي:
+        <bdo dir="ltr">
+            $$
+            l_{MSE} = \frac{1}{r^{2}WH}\sum^{rW}_{x=1}\sum^{rH}_{y=1}(I^{HR}_{x,y} - I^{SR}_{x,y})^2
+            $$ 
+        </bdo>
+      حيث H,W هما طول وعرض الصورة الـlow resolution، وr هو الـscaling factor، و <bdo dir="ltr">$I^{HR}$</bdo> هي الصورة الـhigh resolution الأصلية، و <bdo dir="ltr">$I^{SR}$</bdo> هي الصورة الناتجة من الموديل.
+      <br><br>
+      لو عايزين نبني الموديل بالكود، في البداية هعمل function بتبني الـresidual block:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">BatchNormalization</span><span class="p">,</span> <span class="n">Add</span><span class="p">,</span><span class="n">bConv2D</span><span class="p">,</span> <span class="n">PReLU</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.initializers</span> <span class="kn">import</span> <span class="n">Constant</span>
+
+<span class="k">def</span> <span class="nf">PReLU_activation</span><span class="p">(</span><span class="n">name</span><span class="p">):</span>
+    <span class="k">return</span> <span class="n">PReLU</span><span class="p">(</span><span class="n">Constant</span><span class="p">(</span><span class="n">value</span><span class="o">=</span><span class="mf">0.25</span><span class="p">),</span> <span class="n">shared_axes</span><span class="o">=</span><span class="p">[</span><span class="mi">1</span><span class="p">,</span><span class="mi">2</span><span class="p">],</span> <span class="n">name</span><span class="o">=</span><span class="n">name</span><span class="p">)</span>
+
+<span class="k">def</span> <span class="nf">residual_block</span><span class="p">(</span><span class="n">layer_input</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">block_number</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Residual block described in paper&#34;&#34;&#34;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;conv_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">_1&#34;</span><span class="p">)(</span><span class="n">layer_input</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">PReLU_activation</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;prelu_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">momentum</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;BN_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">_1&#34;</span><span class="p">)(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;conv_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">_2&#34;</span><span class="p">)(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">momentum</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;BN_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">_2&#34;</span><span class="p">)(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;add_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)([</span><span class="n">d</span><span class="p">,</span> <span class="n">layer_input</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">d</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        بعد كده هنعمل الـupsampling operation، لكن keras مفيش فيه ESPCN layer لذلك هنسخدم conv layer عادية ونعمل بعدها pixel shuffle عن طريق depth to space layer الموجودة في tensorflow:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.nn</span> <span class="kn">import</span> <span class="n">depth_to_space</span>
+
+<span class="k">def</span> <span class="nf">upsample_block</span><span class="p">(</span><span class="n">layer_input</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">256</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;conv_up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)(</span><span class="n">layer_input</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">depth_to_space</span><span class="p">(</span><span class="n">u</span><span class="p">,</span> <span class="n">scale</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;pix_shuf_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">PReLU_activation</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;prelu_up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">u</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        الآن هنبني الموديل بالكامل، ممكن تراجع الـdiagram الخاص بالموديل من الـpaper بتاعته، والموضّح في Figure 9:
+    </h4>
+        <p align="center">
+            <img src="/lib/img/SRResNet.JPG" alt="SRResNet model"/>
+            <br>
+            Fig 9: SRResNet Model Architecture as described in paper
+            <br> 
+            Source: <a href="https://arxiv.org/abs/1609.04802">Click here</a> 
+        </p>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="n">NUM_RES_BLOCKS</span> <span class="o">=</span> <span class="mi">16</span>
+
+<span class="n">lr_image</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;Conv_ip&#34;</span><span class="p">)(</span><span class="n">lr_image</span><span class="p">)</span>
+<span class="n">c1</span> <span class="o">=</span> <span class="n">r</span> <span class="o">=</span> <span class="n">PReLU_activation</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;prelu_ip&#34;</span><span class="p">)(</span><span class="n">c1</span><span class="p">)</span>
+
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="n">NUM_RES_BLOCKS</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">residual_block</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;conv_out&#34;</span><span class="p">)(</span><span class="n">r</span><span class="p">)</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">momentum</span><span class="o">=</span><span class="mf">0.8</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;BN_out&#34;</span><span class="p">)(</span><span class="n">c2</span><span class="p">)</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;add_out&#34;</span><span class="p">)([</span><span class="n">c2</span><span class="p">,</span> <span class="n">c1</span><span class="p">])</span>
+
+<span class="n">u1</span> <span class="o">=</span> <span class="n">upsample_block</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">upsample_block</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="mi">2</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">c3</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">9</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s2">&#34;sigmoid&#34;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;conv_final&#34;</span><span class="p">)(</span><span class="n">u2</span><span class="p">)</span>
+
+<span class="n">srresnet</span> <span class="o">=</span>  <span class="n">Model</span><span class="p">(</span><span class="n">lr_image</span><span class="p">,</span> <span class="n">c3</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;SRResNet&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">الـactivation المستخدمة في الـlayer الأخيرة هي sigmoid، لكن الـpaper استخدمت tanh، أنا استخدمت sigmoid لإن الـpreprocessing الى عملته كان scaling للصور بين 0 و 1 لذلك كانت مناسبة أكثر من الـtanh في التطبيق الى انا عملته.</div>
+        </div>
+    </div>
+    <h4>
+ممكن تشوف كود الموديل بالكامل <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/models.py#L10">هنا</a>.
+    </h4>
+    <h4>
+        الـSRResNet قدر يحقق نتائج ممتازة بفارق كبير عن الطرق السابقة، لكن تظل مشكلة واضحة في الـoutput الخاص بالموديل وهو إنه رغم تحقيقه لنتائج ممتازة جداً في <a href="https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">الـPSNR</a> و<a href="https://en.wikipedia.org/wiki/Structural_similarity">الـSSIM</a> إلا إن الصورة بيظهر فيها نوع من الـblurring effect.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/SRResNet output.jpg" alt="SRResNet output"/>
+        <br>
+        Fig 10: SRResNet Output (middle) compared to input (left) and original (right)
+    </p>
+    <h3>
+        <a href="https://arxiv.org/abs/1707.02921">EDSR</a> 
+    </h3>
+    <h4>
+في 2017 ظهر موديل جديد اسمه Enhanced Deep Super-Resolution Network (EDSR)، في الـPaper دى بيقترحوا تعديل في تصميم الـSRResNet وذلك عن طريق استبدال الـPReLU بـReLU والاستغناء عن أي activations خارج الـres block والاستغناء عن الـBatch norm layers تماماً من الموديل. الـPaper بتبرر التعديل ده بإن الـResNet مصممة لحل high level problem وهي الـClassification، في هذا النوع من المشاكل الـshift الناتج من استخدام الـBatch norm ليس له تأثير واضح على دقة الـoutput، أما في حالة low level problems زى الـsuper resolution، فالـinput والـoutput مرتبطين ببعض بشكل كبير وبالتالي الـbatch norm بيأثر على جودة الـoutput.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/EDSR.JPG" alt="EDSR model"/>
+        <br>
+        Fig 11: Sketch of EDSR Model
+        <br> 
+        Source: <a href="https://arxiv.org/abs/1808.03344">Click here</a> 
+    </p>
+    <h3>
+        لكن الـbatch normalization بيديني ميزة مهمة جداً وهي الـtraining statibility، هل أقدر أدرّب الموديل بدونه؟
+    </h3>
+    <h4>
+    الـPaper بتقول إن تصميم الموديل بـ16 res block هيقدر يخلينا ندرّبه بدون مشاكل، لكن لو حبينا نعمل موديل أكبر (زى الموضّح في Figure 11) فممكن نعمل scaling للـfeature maps داخل الـres block، ده هيعوّض بعض التأثير الى فقدته لما استغنيت عن الـbatch norm
+    </h4>
+    <h4>
+    التعديل ده رغم إنه بسيط لكن الإستغناء عن الـbatch norm layers أدى إلى إن الموديل أصبح يستهك 40% memore أقل من الـSRResNet، وبالتالي أصبح الـEDSR بياخد تقريباً نص الوقت الى كان بياخده الـSRResNet في كل Epoch بنفس الـbatch size، بالإضافة إلى إن لو معايا GPU بـmemory كبيرة فممكن استخدم batch size أكبر وأحصل على training time أقل كمان.
+    </h4>
+    <h4>
+    التعديل الثاني هو استبدال الـmean square error بـmean absolute error كـloss function، الـPaper بتبرر التعديل ده بإن الـMAE يؤدي لـbetter convergence near the minimum ولذلك يصل لنتائج أفضل.
+    </h4>
+    <bdo dir="ltr">
+        $$
+        l_{MAE} = \frac{1}{r^{2}WH}\sum^{rW}_{x=1}\sum^{rH}_{y=1}|I^{HR}_{x,y} - I^{SR}_{x,y}|
+        $$ 
+    </bdo>
+    <h4>
+كود الـEDSR بسيط ومشابه إلى حد كبير للـSRResNet، الى احنا هنطبقه هنا هو الـbase model الموجود في الـpaper وهو عبارة عن 16 res block فقط وبدون scaling. الكود الخاص بالـres block والـupsample block هيكون كالآتي:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Add</span><span class="p">,</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">Lambda</span> 
+<span class="kn">from</span> <span class="nn">tensorflow.nn</span> <span class="kn">import</span> <span class="n">depth_to_space</span>
+
+<span class="n">pixel_shuffle</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">depth_to_space</span><span class="p">(</span><span class="n">x</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+
+ <span class="k">def</span> <span class="nf">residual_block</span><span class="p">(</span><span class="n">layer_input</span><span class="p">,</span> <span class="n">filters</span><span class="p">,</span> <span class="n">block_number</span><span class="p">):</span>
+    <span class="s2">&#34;&#34;&#34;Residual block described in paper&#34;&#34;&#34;</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;relu&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;conv_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">_1&#34;</span><span class="p">)(</span><span class="n">layer_input</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">filters</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;conv_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">_2&#34;</span><span class="p">)(</span><span class="n">d</span><span class="p">)</span>
+    <span class="n">d</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;add_res_</span><span class="si">{</span><span class="n">block_number</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)([</span><span class="n">d</span><span class="p">,</span> <span class="n">layer_input</span><span class="p">])</span>
+    <span class="k">return</span> <span class="n">d</span>
+
+<span class="k">def</span> <span class="nf">upsample_block</span><span class="p">(</span><span class="n">layer_input</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span> <span class="p">:</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">num_filters</span><span class="o">*</span><span class="mi">4</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;conv_up_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)(</span><span class="n">layer_input</span><span class="p">)</span>
+    <span class="n">u</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">pixel_shuffle</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="sa">f</span><span class="s2">&#34;pix_shuf_</span><span class="si">{</span><span class="n">i</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)(</span><span class="n">u</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">u</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+    دلوقتي نقدر نبني الموديل:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+
+<span class="n">DIV2K_RGB_MEAN</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="mf">0.4488</span><span class="p">,</span> <span class="mf">0.4371</span><span class="p">,</span> <span class="mf">0.4040</span><span class="p">])</span> <span class="o">*</span> <span class="mi">255</span>
+<span class="n">normalize</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="p">(</span><span class="n">x</span> <span class="o">-</span> <span class="n">DIV2K_RGB_MEAN</span><span class="p">)</span> <span class="o">/</span> <span class="mf">127.5</span>
+<span class="n">denormalize</span> <span class="o">=</span> <span class="k">lambda</span> <span class="n">x</span><span class="p">:</span> <span class="n">x</span> <span class="o">*</span> <span class="mf">127.5</span> <span class="o">+</span> <span class="n">DIV2K_RGB_MEAN</span>
+
+<span class="n">x_in</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">),</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;LR Batch&#34;</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">normalize</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;normalize_input&#34;</span><span class="p">)(</span><span class="n">x_in</span><span class="p">)</span>
+<span class="n">x</span> <span class="o">=</span> <span class="n">r</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;Conv_ip&#34;</span><span class="p">)(</span><span class="n">x</span><span class="p">)</span>
+<span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">16</span><span class="p">):</span>
+    <span class="n">r</span> <span class="o">=</span> <span class="n">residual_block</span><span class="p">(</span><span class="n">r</span><span class="p">,</span> <span class="mi">64</span><span class="p">,</span> <span class="n">i</span><span class="p">)</span>
+
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;conv_out&#34;</span><span class="p">)(</span><span class="n">r</span><span class="p">)</span>
+<span class="n">c2</span> <span class="o">=</span> <span class="n">Add</span><span class="p">(</span><span class="n">name</span><span class="o">=</span><span class="s2">&#34;add_out&#34;</span><span class="p">)([</span><span class="n">x</span><span class="p">,</span> <span class="n">c2</span><span class="p">])</span>
+<span class="n">u1</span> <span class="o">=</span> <span class="n">upsample_block</span><span class="p">(</span><span class="n">c2</span><span class="p">,</span> <span class="mi">1</span><span class="p">)</span>
+<span class="n">u2</span> <span class="o">=</span> <span class="n">upsample_block</span><span class="p">(</span><span class="n">u1</span><span class="p">,</span> <span class="mi">2</span><span class="p">)</span>
+<span class="n">c3</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">3</span><span class="p">,</span> <span class="mi">3</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;conv_final&#34;</span><span class="p">)(</span><span class="n">u2</span><span class="p">)</span>
+<span class="n">x_out</span> <span class="o">=</span> <span class="n">Lambda</span><span class="p">(</span><span class="n">denormalize</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;denormalize_output&#34;</span><span class="p">)(</span><span class="n">c3</span><span class="p">)</span>
+
+<span class="n">edsr</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="n">x_out</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;EDSR&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        تقدر تشوف كود الموديل بالكامل <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/models.py#L67">هنا</a>. 
+    </h4>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">لاحظ إن الموديل لا يحتوى على أي activation في الـoutput layer، وبالتالي هتحتاج تعمل clipping للـpixel values الناتجة من الموديل عشان تخلي الـrange بين 0 و 255 أو بين 0 و 1 لو عامل normalization للصور</div>
+        </div>
+    </div>
+    <h4>
+الـEDSR قدر يحقق نتائج أفضل من الـSRResNet وفي وقت أقل لكن ماتزال مشكلة الـsmoothing واضحة في الـoutput. عشان نحل المشكلة دى،     الـPaper الخاصة بـSRResNet أقترحت عمل fine-tuning للـweights الخاصة به عن طريق تدريبه في Generative Adversarial Network (GAN) عشان يقدر ينتج صور بتفاصيل أفضل وأكثر واقعية
+    </h4>
+    <h3>
+        <a href="https://arxiv.org/abs/1609.04802">SRGAN</a> 
+    </h3>
+    <h4>
+        الـPaper بتقول إن سبب الـblurring هو إن تدريب الموديل على mean square error، بينتج output عبارة عن average لأكتر من output محتمل عشان بتوصل لأقل mean square error ممكن ولكن بتسبب الـblurring الظاهر في الصورة. وبناء على كده اقترحوا طريقة جديدة لتدريب الـsuper resolution models معتمدة على GAN، وده بسبب قدرة الـGAN على توليد صور Realistic وأقرب ما تكون للصور الواقعية 
+    </h4>
+    <p align="center">
+        <img src="/lib/img/Argument for using SRGAN.JPG" alt="GAN Effect on model output"/>
+        <br>
+        Fig 12: Illustration of patches from the natural image manifold (red) and super-resolved patches obtained with MSE (blue) and GAN (orange)
+        <br> 
+        Source: <a href="https://arxiv.org/abs/1609.04802">Click here</a> 
+    </p>
+    <h4>
+    تدريب الموديل في GAN هيساعده في توليد تفاصيل أكثر في الصورة بفضل الـfeedback الى هياخده من الـdiscriminator، لكن بعكس تصميم الـGANs المعتاد وهو إن الـgenerator loss معتمدة على الـdiscriminator فقط، هنا لازم الـgenerator ياخد feedback مباشر عن الـoutput بتاعه، لإن انا مش مهتم فقط بإنه يطلع realistic images، ده لازم تكون الصور الناتجة محافظة عن نفس الـcontent الموجود في الصورة الأصلية، لذلك فالـgenerator loss هنا مكوّنة من جزئين:
+<ol>
+        <li>Adversarial loss: ده الجزء الخاص بالـfeedback الجاي من الـdiscrimator; وده بيحكم على قدرة الـgenerator على خداع الـdiscriminator ومعادلته كالآتي:
+        <bdo dir="ltr">
+            $$
+            l_{Gen} = \sum^{N}_{n=1}-log(D(I^{SR}))
+            $$ 
+        </bdo>
+        حيث أن <bdo dir="ltr">$D(I^{SR})$</bdo> هو output الـdiscriminator بالنسبة للـgenerated image
+        </li>
+        <li>Content loss: وده الجزء الخاص بالـcontent الموجود في الصورة الأصلية، الpaper هنا بتقول إن استخدام mean square error كـcontent loss مش بيقدم نتيجة كويسة ولذلك أستخدموا VGG loss: بدل ما نعمل mean square error على الصور بشكل مباشر، هندخل الصور على pretrained VGG19 network عشان تستخرج high level features ونحسب عليهم الـmean square error. معادلة الـVGG loss موضّحة كالآتي:
+        <bdo dir="ltr">
+            $$
+            l_{VGG/i,j} = \frac{1}{r^{2}W_{i,j}H_{i,j}}\sum^{rW_{i,j}}_{x=1}\sum^{rH_{i,j}}_{y=1}(\phi_{i,j}(I^{HR})_{x,y} - \phi_{i,j}(I^{SR})_{x,y})^2
+            $$ 
+        </bdo>
+        حيث أن <bdo dir="ltr">$\phi_{i,j}$</bdo> تدل على الـfeature map الناتجة من الـconvolution رقم j وقبل الـmaxpooling رقم i في VGG19 network
+        </li>
+    </ol>
+    </h4>
+    <h4>
+    الـgenerator loss (وتسمى هنا perceptual loss) هتكون عبارة عن weighted sum بين الـadversarial loss والـcontent loss:
+    <bdo dir="ltr">
+        $$
+        l^{SR} = l_{VGG} + 10^{-3}l_{Gen}
+        $$ 
+    </bdo>
+    بالنسبة للـdiscriminator المستخدم في الـGAN، فهو عبارة عن feed-forward network مهمتها هى تحديد إذا ما كان الـinput عبارة عن صورة حقيقة أو ناتجة من الـgenerator. وتصميمه موضح في Figure 13.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/SRGAN Disrcriminator.JPG" alt="SRGAN Disrcriminator"/>
+        <br>
+        Fig 13: SRGAN Disrcriminator as described in paper
+        <br> 
+        Source: <a href="https://arxiv.org/abs/1609.04802">Click here</a> 
+    </p>
+والـloss function الخاصة به هي:
+    <bdo dir="ltr">
+        $$
+        l_{Disc} = -\sum^{N}_{n=1}[log(D(I^{HR})) + log(1 - D(I^{SR}))]
+        $$ 
+    </bdo>
+    بالنسبة للكود، فنقدر نبني الـdiscriminator كالآتي:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.keras.layers</span> <span class="kn">import</span> <span class="n">Input</span><span class="p">,</span> <span class="n">BatchNormalization</span><span class="p">,</span> <span class="n">Dense</span><span class="p">,</span> <span class="n">Conv2D</span><span class="p">,</span> <span class="n">LeakyReLU</span>
+
+<span class="k">def</span> <span class="nf">disc_block</span><span class="p">(</span><span class="nb">input</span><span class="p">,</span> <span class="n">no_kernels</span><span class="p">,</span> <span class="n">strides</span><span class="p">)</span> <span class="p">:</span>
+    <span class="s2">&#34;&#34;&#34;discriminator block described in paper&#34;&#34;&#34;</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="n">no_kernels</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="n">strides</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="nb">input</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">LeakyReLU</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)(</span><span class="n">c</span><span class="p">)</span>
+    <span class="n">c</span> <span class="o">=</span> <span class="n">BatchNormalization</span><span class="p">(</span><span class="n">momentum</span><span class="o">=</span><span class="mf">0.8</span><span class="p">)(</span><span class="n">c</span><span class="p">)</span>
+    <span class="k">return</span> <span class="n">c</span>
+</code></pre></td></tr></table>
+</div>
+</div><div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+
+<span class="n">x_in</span> <span class="o">=</span> <span class="n">Input</span><span class="p">(</span><span class="n">shape</span><span class="o">=</span><span class="p">(</span><span class="kc">None</span><span class="p">,</span> <span class="kc">None</span><span class="p">,</span> <span class="mi">3</span><span class="p">))</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">Conv2D</span><span class="p">(</span><span class="mi">64</span><span class="p">,</span> <span class="n">kernel_size</span><span class="o">=</span><span class="mi">3</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">,</span> <span class="n">padding</span><span class="o">=</span><span class="s1">&#39;same&#39;</span><span class="p">)(</span><span class="n">x_in</span><span class="p">)</span>
+<span class="n">c</span> <span class="o">=</span> <span class="n">LeakyReLU</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)(</span><span class="n">c</span><span class="p">)</span>
+
+<span class="n">d1</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">c</span> <span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">64</span> <span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">d2</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">d1</span><span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">d3</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">d2</span><span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">128</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">d4</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">d3</span><span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">d5</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">d4</span><span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">256</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+<span class="n">d6</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">d5</span><span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">1</span><span class="p">)</span>
+<span class="n">d7</span> <span class="o">=</span> <span class="n">disc_block</span><span class="p">(</span><span class="n">d6</span><span class="p">,</span> <span class="n">no_kernels</span><span class="o">=</span><span class="mi">512</span><span class="p">,</span> <span class="n">strides</span><span class="o">=</span><span class="mi">2</span><span class="p">)</span>
+
+<span class="n">dense1</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1024</span><span class="p">)(</span><span class="n">d7</span><span class="p">)</span>
+<span class="n">dense1</span> <span class="o">=</span> <span class="n">LeakyReLU</span><span class="p">(</span><span class="n">alpha</span><span class="o">=</span><span class="mf">0.2</span><span class="p">)(</span><span class="n">dense1</span><span class="p">)</span>
+<span class="n">dense2</span> <span class="o">=</span> <span class="n">Dense</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">activation</span><span class="o">=</span><span class="s1">&#39;sigmoid&#39;</span><span class="p">)(</span><span class="n">dense1</span><span class="p">)</span>
+
+<span class="n">discriminator</span> <span class="o">=</span>  <span class="n">Model</span><span class="p">(</span><span class="n">x_in</span><span class="p">,</span> <span class="n">dense2</span><span class="p">,</span> <span class="n">name</span><span class="o">=</span><span class="s2">&#34;SRGAN_Discriminator&#34;</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        تقدر تشوف كود الـdiscriminator بالكامل <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/models.py#L125">هنا</a>. 
+    </h4>
+<div class="details admonition note open">
+        <div class="details-summary admonition-title">
+            <i class="icon fas fa-pencil-alt fa-fw"></i>Note<i class="details-icon fas fa-angle-right fa-fw"></i>
+        </div>
+        <div class="details-content">
+            <div class="admonition-content">لاحظ إن مفيش flatten layer ما بين الـdense layer والـconv layer وده معناه إن الـdiscriminator هيطلع feature map، الـfeature map دى عبارة عن أرقام بين 0 و 1 وكل واحدة فيهم هتعبر عن الـscore الخاص بجزء معين من الصورة، كده الـgenerator بدل ما ياخد score واحد بس لكل صورة بيطلعها، هياخد score مستقل لكل جزء في الصورة وبالتالي يقدر يتعلم بشكل أفضل.</div>
+        </div>
+    </div>
+    <h3>
+        الـdataset المستخدمة في الـtraining
+    </h3>
+    <h4>
+    الميزة في الـsuper resolution هو إننا نقدر نكوّن dataset بشكل سهل ومباشر، ممكن أجمّع صور high resolution من أي مكان وأطبّق عليها down sampling عشان اطلع منهم صور low resolution، الـPaper الخاصة بـSRResNet و SRGAN عملت كده وطبّقت bicubic downsampling على جزء من ImageNet dataset عشان تطلع منها صور low resolution.
+    </h4>
+    <h4>
+        لكن الـpaper الخاصة بـEDSR استخدمت dataset مختلفة وهي <a href="https://data.vision.ee.ethz.ch/cvl/DIV2K/">DIV2K</a>  ، الـdataset دى مجهزة ومصممة خصيصاً لمشكلة الـsuper resolution، تحتوي على 1000 صورة بـresolution 2k مقسّمة إلى 800 صورة training، و100 صورة validation، و100 صورة testing. الـdataset موجود منها أكتر من نسخة بناء على الـscaling factor والـdownsampling الى هتختاره، لذلك إحنا هنشتغل عليها و هنختار scaling factor= 4 و bicubic downsampling.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/div2k validation subset.JPG" alt="div2k validation subset"/>
+        <br>
+        Fig 14: DIV2K validation set
+        <br> 
+        Source: <a href="http://www.vision.ee.ethz.ch/~timofter/publications/Agustsson-CVPRW-2017.pdf">Click here</a> 
+    </p>
+    <h4>
+        ممكن تشوف السكربت الى بيحمل الـdataset <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/data_downloader.py">هنا</a>، أما بالنسبة للـpreprocessing فكل الى عملناه هو إننا قسمنا كل صورة high resolution لمجموعة صور بحجم 256×256 وكل صورة low resolution لمجموعة صور بحجم 64×64 عشان يكون الـscaling factor 4 زى ما حددناه، ممكن تشوف سكربت الـpreprocessing <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/preprocessing.py">هنا</a>. إجمالي عدد الصور بعد الـpreprocessing تخطّى 28,000 صورة وهو عدد كافي للـtraining.
+    </h4>
+    <h3>
+        Model training
+    </h3>
+    <h4>
+        قبل ما نعمل training لازم نعمل data loader الأول بيقرأ كل batch من الـdisk، لإن حجم الdataset ممكن يكون كبير على الـRAM، الـdata loader هيكون عبارة عن class بتـinherit من tensorflow.keras.utils.Sequence، هنعرف الـconstructor بتاعها كالآتي:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">import</span> <span class="nn">cv2</span>
+<span class="kn">import</span> <span class="nn">numpy</span> <span class="k">as</span> <span class="nn">np</span>
+<span class="kn">from</span> <span class="nn">glob</span> <span class="kn">import</span> <span class="n">glob</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.utils</span> <span class="kn">import</span> <span class="n">Sequence</span>
+
+<span class="k">class</span> <span class="nc">Div2kLoader</span><span class="p">(</span><span class="n">Sequence</span><span class="p">):</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">shuffle</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">True</span><span class="p">,</span> <span class="n">load_all_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>   
+        <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span> <span class="o">=</span> <span class="n">shuffle</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">load_all_data</span> <span class="o">=</span> <span class="n">load_all_data</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_hr_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/HR/*&#34;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">train_lr_paths</span> <span class="o">=</span> <span class="nb">sorted</span><span class="p">(</span><span class="n">glob</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">path</span><span class="si">}</span><span class="s2">/LR/*&#34;</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_hr_paths</span><span class="p">))</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_no</span> <span class="o">=</span> <span class="mi">0</span> <span class="c1">#For the load_patch method.</span>
+
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_all_data</span><span class="p">:</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">hr_images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_hr_paths</span><span class="p">])</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">lr_images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="n">path</span><span class="p">)</span> <span class="k">for</span> <span class="n">path</span> <span class="ow">in</span> <span class="bp">self</span><span class="o">.</span><span class="n">train_lr_paths</span><span class="p">])</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        لاحظ إن الـconstructor بياخد الـpath الموجود فيه الـdata، وهنا هو بيفترض إن الـdata متقسمة لفولدرين في الـpath ده: HR بيتحوى الصور الـhigh resolution، وLR بيحتوي الصور الـlow resolution، كمان بيفترض إن كل صورة high resolution والمناظر لها في الـlow resolution لهم نفس الاسم أو على الأقل موجودين بنفس الترتيب في الفولدرين، لذلك لازم تتأكد من كده عشان الداتا تدخل بشكل صحيح للموديل.
+    </h4>
+    <h4>
+باقي الـarguments الى في الـconstuctor استخدامها واضح من اسمها: الـbatch_size هو عدد الصور في كل batch، و shuffle عشان لو عايز أعمل shuffle للداتا بعد كل epoch، و load_all_data لو عايز أحط الداتا كلها في الـRAM لو عندي مساحة تكفيها
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="fm">__len__</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;Denotes the number of batches per epoch&#34;&#34;&#34;</span>
+        <span class="k">return</span> <span class="nb">int</span><span class="p">(</span><span class="n">np</span><span class="o">.</span><span class="n">floor</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">)</span><span class="o">/</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">))</span>
+    
+    <span class="k">def</span> <span class="nf">on_epoch_end</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;Determine what happens after each epoch&#34;&#34;&#34;</span>
+        <span class="c1">#Shuffle indexes after each epoch</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">indexes</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">arange</span><span class="p">(</span><span class="nb">len</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_hr_paths</span><span class="p">))</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">shuffle</span><span class="p">:</span>
+            <span class="n">np</span><span class="o">.</span><span class="n">random</span><span class="o">.</span><span class="n">shuffle</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+    __len__ بنعرّفها عشان نحدد عدد الـbatches per epoch، وهو عدد الصور الكلي على الـbatch_size.
+    </h4>
+    <h4>
+        on_epoch_end بنعرّف فيها الى احنا عايزينه يحصل بعد كل epoch، هنا هنعمل shuffle للـdata بعد كل epoch لو كنا محددين إن shuffle = True في الـ__init__.
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">index</span><span class="p">):</span>
+      <span class="s2">&#34;&#34;&#34;Generates one patch of data&#34;&#34;&#34;</span>
+      <span class="n">indices</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">indexes</span><span class="p">[</span><span class="n">index</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span> <span class="p">:</span> <span class="p">(</span><span class="n">index</span> <span class="o">+</span> <span class="mi">1</span><span class="p">)</span> <span class="o">*</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_size</span><span class="p">]</span>
+
+      <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">load_all_data</span><span class="p">:</span>
+        <span class="n">hr_images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr_images</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+        <span class="n">lr_images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr_images</span><span class="p">[</span><span class="n">indices</span><span class="p">]</span>
+      <span class="k">else</span><span class="p">:</span>         
+        <span class="n">hr_images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_hr_paths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">])</span>
+        <span class="n">lr_images</span> <span class="o">=</span> <span class="n">np</span><span class="o">.</span><span class="n">array</span><span class="p">([</span><span class="n">cv2</span><span class="o">.</span><span class="n">imread</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">train_lr_paths</span><span class="p">[</span><span class="n">i</span><span class="p">])</span> <span class="k">for</span> <span class="n">i</span> <span class="ow">in</span> <span class="n">indices</span><span class="p">])</span>
+      <span class="k">return</span> <span class="n">lr_images</span><span class="p">,</span> <span class="n">hr_images</span>
+  
+    <span class="k">def</span> <span class="nf">load_batch</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;Used for training SRGAN&#34;&#34;&#34;</span>
+        <span class="k">if</span> <span class="bp">self</span><span class="o">.</span><span class="n">batch_no</span> <span class="o">-</span> <span class="mi">1</span> <span class="o">&gt;</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__len__</span><span class="p">():</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">on_epoch_end</span><span class="p">()</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">batch_no</span> <span class="o">=</span> <span class="mi">0</span>
+        <span class="n">lr_images</span><span class="p">,</span> <span class="n">hr_images</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="fm">__getitem__</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">batch_no</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">batch_no</span> <span class="o">+=</span> <span class="mi">1</span>
+        <span class="k">return</span> <span class="n">lr_images</span><span class="p">,</span> <span class="n">hr_images</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+    __getitem__ هى أهم method في الـdata loader، وفيها بنقرأ الداتا من الـdisk (أو من الـRAM) ونرجعها للموديل، وفي الـmethod دى أحنا ممكن نعمل أي preprocessing إضافي على الداتا بعد ما نقرأها وقبل ما نرجعها للموديل، لكن لازم تاخد في الاعتبار إن ده هيأثر على الـtraining time بشكل كبير لو الـpreprocessing الى بتعمله تقيل، هنا احنا مش بنعمل preprocessing وبنرجع الـdata مباشرة للموديل.
+    </h4>
+    <h4>
+        load_patch مش method أساسية في الـdata loader لكننا هنعرّفها عشان نستخدمها واحنا بنعمل training للـGAN وهنشوف استخدامها في الـtraining.
+    </h4>
+    <h4>
+        ممكن تشوف كود الـdata_loader بالكامل <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/data_loader.py">هنا</a>
+    </h4>
+    <h3>
+        بعد ما جهزنا الـdataset والـloader الخاص بها الأن ممكن نعمل الـtraining cycle.
+    </h3>
+    <h4>
+        في البداية هنعمل SrganTrainer class ونجهز كل مستلزمات الـtraining:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="kn">from</span> <span class="nn">data_loader</span> <span class="kn">import</span> <span class="n">Div2kLoader</span>
+<span class="kn">from</span> <span class="nn">models</span> <span class="kn">import</span> <span class="n">edsr</span><span class="p">,</span> <span class="n">srgan_discriminator</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.models</span> <span class="kn">import</span> <span class="n">Model</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.optimizers</span> <span class="kn">import</span> <span class="n">Adam</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.applications.vgg19</span> <span class="kn">import</span> <span class="n">VGG19</span><span class="p">,</span> <span class="n">preprocess_input</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.callbacks</span> <span class="kn">import</span> <span class="n">ModelCheckpoint</span>
+<span class="kn">from</span> <span class="nn">tensorflow.keras.losses</span> <span class="kn">import</span> <span class="n">MeanSquaredError</span><span class="p">,</span> <span class="n">BinaryCrossentropy</span>
+<span class="kn">import</span> <span class="nn">tensorflow</span> <span class="k">as</span> <span class="nn">tf</span>
+
+<span class="k">class</span> <span class="nc">SrganTrainer</span><span class="p">():</span>
+    <span class="k">def</span> <span class="fm">__init__</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">generator</span><span class="p">:</span> <span class="n">Model</span><span class="p">,</span> <span class="n">discriminator</span><span class="p">:</span> <span class="n">Model</span><span class="p">,</span> <span class="n">data_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">lrw</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">lrh</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">64</span><span class="p">,</span> <span class="n">load_all_data</span><span class="p">:</span> <span class="nb">bool</span> <span class="o">=</span> <span class="kc">False</span><span class="p">,</span> <span class="n">learning_rate</span><span class="p">:</span> <span class="nb">float</span> <span class="o">=</span> <span class="mf">1e-4</span><span class="p">):</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">channels</span> <span class="o">=</span> <span class="mi">3</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr_height</span> <span class="o">=</span> <span class="n">lrh</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr_width</span> <span class="o">=</span> <span class="n">lrw</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">lr_shape</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">lr_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">hr_height</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr_height</span><span class="o">*</span><span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hr_width</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">lr_width</span><span class="o">*</span><span class="mi">4</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">hr_shape</span> <span class="o">=</span> <span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">hr_height</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">hr_width</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">channels</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span> <span class="o">=</span> <span class="n">generator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gen_optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">discriminator</span> <span class="o">=</span> <span class="n">discriminator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disc_optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="n">learning_rate</span><span class="p">)</span>
+
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span> <span class="o">=</span> <span class="n">Div2kLoader</span><span class="p">(</span><span class="n">data_path</span><span class="p">,</span> <span class="n">load_all_data</span><span class="o">=</span><span class="n">load_all_data</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span> <span class="o">=</span> <span class="n">learning_rate</span>
+        
+        <span class="c1"># Build the VGG network used in calculating the content Loss</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">vgg</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_vgg_54_model</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_mean_squared_error</span> <span class="o">=</span> <span class="n">MeanSquaredError</span><span class="p">()</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">_binary_cross_entropy</span> <span class="o">=</span> <span class="n">BinaryCrossentropy</span><span class="p">(</span><span class="n">from_logits</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>    
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+    في الـconstructor هنعرّف الـlow resolution shape والـhigh resolution shape، هنديله الـgenerator والـdiscriminator وهنعرّف optimizer خاص بكل موديل، الـlearning rate المستخدم في الـpaper هو 1e-4 لأول 100,000 mini-batch وبعد كده بيقل لـ1e-5، لكن الى استخدمته هنا هو learning rate ثابت فقط.
+    </h4>
+    <h4>
+    هنعرّف الـdata loader ونديله الـpath الموجود فيه الداتا، وأخيرا هنعرف بعد الـvariables الى هنستخدمهم في حسابات الـloss لكل موديل، أول حاجة هنعرفها هي الـVGG network الى هنستخدمها في حساب الـcontent loss:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">_vgg_54_model</span><span class="p">(</span><span class="bp">self</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;Creates a VGG model used in calculating the content loss.
+</span><span class="s2">        Uses the 4th convolution before the 5th pooling layer as an output layer.&#34;&#34;&#34;</span>
+        <span class="n">vgg</span> <span class="o">=</span> <span class="n">VGG19</span><span class="p">(</span><span class="n">input_shape</span><span class="o">=</span><span class="bp">self</span><span class="o">.</span><span class="n">hr_shape</span><span class="p">,</span> <span class="n">include_top</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+        <span class="n">vgg</span> <span class="o">=</span> <span class="n">Model</span><span class="p">(</span><span class="n">vgg</span><span class="o">.</span><span class="n">input</span><span class="p">,</span> <span class="n">vgg</span><span class="o">.</span><span class="n">layers</span><span class="p">[</span><span class="mi">20</span><span class="p">]</span><span class="o">.</span><span class="n">output</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">vgg</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        هنستخرج feature maps من الـconv layer رقم 4 قبل الpooling layer رقم 5 من VGG19، وهى دى الى هنحسب بيها الـcontent loss:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span><span class="lnt">8
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="nd">@tf</span><span class="o">.</span><span class="n">function</span>
+    <span class="k">def</span> <span class="nf">_content_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">original</span><span class="p">,</span> <span class="n">generated</span><span class="p">):</span>
+        <span class="n">generated_preprocessed</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">generated</span><span class="p">)</span>
+        <span class="n">original_preprocessed</span> <span class="o">=</span> <span class="n">preprocess_input</span><span class="p">(</span><span class="n">original</span><span class="p">)</span>
+
+        <span class="n">sr_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vgg</span><span class="p">(</span><span class="n">generated_preprocessed</span><span class="p">)</span><span class="o">/</span><span class="mf">12.75</span>
+        <span class="n">hr_features</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">vgg</span><span class="p">(</span><span class="n">original_preprocessed</span><span class="p">)</span><span class="o">/</span><span class="mf">12.75</span>
+        <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_mean_squared_error</span><span class="p">(</span><span class="n">hr_features</span><span class="p">,</span> <span class="n">sr_features</span><span class="p">)</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        الـadversarial loss والـdiscriminator loss ممكن نحسبهم عن طريق binary cross entropy كالآتي:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt">1
+</span><span class="lnt">2
+</span><span class="lnt">3
+</span><span class="lnt">4
+</span><span class="lnt">5
+</span><span class="lnt">6
+</span><span class="lnt">7
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">_adversarial_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">sr_out</span><span class="p">):</span>
+         <span class="k">return</span> <span class="bp">self</span><span class="o">.</span><span class="n">_binary_cross_entropy</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">sr_out</span><span class="p">),</span> <span class="n">sr_out</span><span class="p">)</span>
+
+    <span class="k">def</span> <span class="nf">_discriminator_loss</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">hr_out</span><span class="p">,</span> <span class="n">sr_out</span><span class="p">):</span>
+        <span class="n">hr_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_binary_cross_entropy</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">ones_like</span><span class="p">(</span><span class="n">hr_out</span><span class="p">),</span> <span class="n">hr_out</span><span class="p">)</span>
+        <span class="n">sr_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_binary_cross_entropy</span><span class="p">(</span><span class="n">tf</span><span class="o">.</span><span class="n">zeros_like</span><span class="p">(</span><span class="n">sr_out</span><span class="p">),</span> <span class="n">sr_out</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">hr_loss</span> <span class="o">+</span> <span class="n">sr_loss</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        الخطوة التالية هي تدريب الموديل بشكل مستقل (سواء كان SRResNet أو EDSR) الـEDSR بيحتاج وقت أقل في الـtraining والـevaluation بتاعه أفضل لذلك هنسخدمه مكان الـSRResNet.
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">def</span> <span class="nf">train_generator</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">epochs</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">150</span><span class="p">,</span> <span class="n">starting_weights</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="kc">None</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">32</span><span class="p">,</span> <span class="n">loss</span><span class="p">:</span> <span class="nb">str</span> <span class="o">=</span> <span class="s2">&#34;mae&#34;</span><span class="p">):</span>
+        <span class="k">if</span> <span class="n">starting_weights</span><span class="p">:</span>
+            <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Initializing &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; with </span><span class="si">{</span><span class="n">starting_weights</span><span class="si">}</span><span class="s2">&#34;</span><span class="p">)</span>
+            <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">starting_weights</span><span class="p">)</span>
+            
+        <span class="n">optimizer</span> <span class="o">=</span> <span class="n">Adam</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">learning_rate</span><span class="p">,</span> <span class="mf">0.9</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">compile</span><span class="p">(</span><span class="n">loss</span><span class="o">=</span> <span class="p">[</span><span class="n">loss</span><span class="p">],</span> 
+                               <span class="n">optimizer</span><span class="o">=</span><span class="n">optimizer</span><span class="p">)</span>
+        
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+        <span class="n">weights_path</span> <span class="o">=</span> <span class="sa">f</span><span class="s2">&#34;model_weights/generator_mse/</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_X4_MSE-</span><span class="se">{{</span><span class="s2">epoch:02d</span><span class="se">}}</span><span class="s2">.h5&#34;</span>
+        <span class="n">checkpoint</span> <span class="o">=</span> <span class="n">ModelCheckpoint</span><span class="p">(</span><span class="n">weights_path</span><span class="p">,</span>  
+                                     <span class="n">save_best_only</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+        
+        <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;Training the Generator on its own:&#34;</span><span class="p">)</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">fit</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="p">,</span> 
+                           <span class="n">epochs</span><span class="o">=</span><span class="n">epochs</span><span class="p">,</span> 
+                           <span class="n">callbacks</span><span class="o">=</span><span class="p">[</span><span class="n">checkpoint</span><span class="p">])</span>
+
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s2">&#34;model_json/</span><span class="si">{self.generator.name}</span><span class="s2">_X4_MSE.json&#34;</span><span class="p">,</span> <span class="s2">&#34;w&#34;</span><span class="p">)</span> <span class="k">as</span> <span class="n">json_file</span><span class="p">:</span>
+            <span class="n">json_file</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">to_json</span><span class="p">())</span>
+
+        <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;training &#39;</span><span class="si">{</span><span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">&#39; model completed Successfully!&#34;</span><span class="p">)</span>
+        <span class="k">return</span> <span class="n">weights_path</span>
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        لاحظ إن لازم الـgenerator يكون trained لوحده باستخدام MSE أو MAE الأول قبل ما يتم تدريبه في الـGAN، السبب هو إن مهمة الـgenerator تعتبر أصعب بكتير من الـdiscriminator لإنه بيحاول يكوّن صورة كاملة، على عكس الـdiscriminator الى بيحاول يدي لكل صورة score بين 0 و 1 فقط، فلو لو جربت استخدم untrained generator هلاقي إن الـdiscriminator بيتعلم أسرع منه بكتير والgenerator مش هيقدر يتعلم كويس، لذلك خطوة الـpre-training مهمة قبل الـGAN
+    </h4>
+    <h4>
+        عشان نعمل training للـGAN هنعمل forward pass، هنحسب الـlosses ، وأخيراً هنعمل backward pass عشان نحسب الـgradients ونعمل update للـweights كالآتي:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span><span class="lnt">27
+</span><span class="lnt">28
+</span><span class="lnt">29
+</span><span class="lnt">30
+</span><span class="lnt">31
+</span><span class="lnt">32
+</span><span class="lnt">33
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="nd">@tf</span><span class="o">.</span><span class="n">function</span>
+    <span class="k">def</span> <span class="nf">_train_step</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">lr</span><span class="p">,</span> <span class="n">hr</span><span class="p">):</span>
+        <span class="s2">&#34;&#34;&#34;SRGAN training step.
+</span><span class="s2">        
+</span><span class="s2">        Takes an LR and an HR image batch as input and returns
+</span><span class="s2">        the computed perceptual loss and discriminator loss.
+</span><span class="s2">        &#34;&#34;&#34;</span>
+        <span class="k">with</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">gen_tape</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">GradientTape</span><span class="p">()</span> <span class="k">as</span> <span class="n">disc_tape</span><span class="p">:</span>
+            <span class="n">lr</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+            <span class="n">hr</span> <span class="o">=</span> <span class="n">tf</span><span class="o">.</span><span class="n">cast</span><span class="p">(</span><span class="n">hr</span><span class="p">,</span> <span class="n">tf</span><span class="o">.</span><span class="n">float32</span><span class="p">)</span>
+
+            <span class="c1"># Forward pass</span>
+            <span class="n">sr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">hr_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminator</span><span class="p">(</span><span class="n">hr</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+            <span class="n">sr_output</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminator</span><span class="p">(</span><span class="n">sr</span><span class="p">,</span> <span class="n">training</span><span class="o">=</span><span class="kc">True</span><span class="p">)</span>
+
+            <span class="c1"># Compute losses</span>
+            <span class="n">con_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_content_loss</span><span class="p">(</span><span class="n">hr</span><span class="p">,</span> <span class="n">sr</span><span class="p">)</span>
+            <span class="n">gen_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_adversarial_loss</span><span class="p">(</span><span class="n">sr_output</span><span class="p">)</span>
+            <span class="n">perc_loss</span> <span class="o">=</span> <span class="n">con_loss</span> <span class="o">+</span> <span class="mf">0.001</span> <span class="o">*</span> <span class="n">gen_loss</span>
+            <span class="n">disc_loss</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_discriminator_loss</span><span class="p">(</span><span class="n">hr_output</span><span class="p">,</span> <span class="n">sr_output</span><span class="p">)</span>
+
+
+        <span class="c1"># Compute gradient of perceptual loss w.r.t. generator weights </span>
+        <span class="n">gradients_of_generator</span> <span class="o">=</span> <span class="n">gen_tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">perc_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+        <span class="c1"># Compute gradient of discriminator loss w.r.t. discriminator weights </span>
+        <span class="n">gradients_of_discriminator</span> <span class="o">=</span> <span class="n">disc_tape</span><span class="o">.</span><span class="n">gradient</span><span class="p">(</span><span class="n">disc_loss</span><span class="p">,</span> <span class="bp">self</span><span class="o">.</span><span class="n">discriminator</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">)</span>
+
+        <span class="c1"># Update weights of generator and discriminator</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">gen_optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients_of_generator</span><span class="p">,</span> <span class="n">generator</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">disc_optimizer</span><span class="o">.</span><span class="n">apply_gradients</span><span class="p">(</span><span class="nb">zip</span><span class="p">(</span><span class="n">gradients_of_discriminator</span><span class="p">,</span> <span class="n">discriminator</span><span class="o">.</span><span class="n">trainable_variables</span><span class="p">))</span>
+
+        <span class="k">return</span> <span class="n">perc_loss</span><span class="p">,</span> <span class="n">disc_loss</span>        
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        آخر حاجة هى إننا نكرّر الخطوة دى عدد معيّن من الـsteps لحد ما نوصل لنتيجة جيّدة، الـpaper عملت training لـ200,000 step لكن ممكن توقف الـtraining قبلها لو وصلت لنتيجة جيدة:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span><span class="lnt">16
+</span><span class="lnt">17
+</span><span class="lnt">18
+</span><span class="lnt">19
+</span><span class="lnt">20
+</span><span class="lnt">21
+</span><span class="lnt">22
+</span><span class="lnt">23
+</span><span class="lnt">24
+</span><span class="lnt">25
+</span><span class="lnt">26
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python">    <span class="k">def</span> <span class="nf">train_gan</span><span class="p">(</span><span class="bp">self</span><span class="p">,</span> <span class="n">weights_path</span><span class="p">:</span> <span class="nb">str</span><span class="p">,</span> <span class="n">steps</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mf">2e5</span><span class="p">,</span> <span class="n">batch_size</span><span class="p">:</span> <span class="nb">int</span> <span class="o">=</span> <span class="mi">16</span><span class="p">):</span>
+        <span class="c1"># Prepare log file:</span>
+        <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;training_history/losses.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;w&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+          <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="s2">&#34;step, perc_loss, disc_loss</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+        
+        <span class="c1"># Initialize the generator:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">generator</span><span class="o">.</span><span class="n">load_weights</span><span class="p">(</span><span class="n">weights_path</span><span class="p">)</span>
+
+        <span class="c1"># Specify the batch size:</span>
+        <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">batch_size</span> <span class="o">=</span> <span class="n">batch_size</span>
+
+        <span class="k">for</span> <span class="n">step</span> <span class="ow">in</span> <span class="nb">range</span><span class="p">(</span><span class="mi">1</span><span class="p">,</span> <span class="n">steps</span> <span class="o">+</span> <span class="mi">1</span><span class="p">):</span>
+          <span class="n">lr</span><span class="p">,</span> <span class="n">hr</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">data</span><span class="o">.</span><span class="n">load_batch</span><span class="p">()</span>
+          <span class="n">pl</span><span class="p">,</span> <span class="n">dl</span> <span class="o">=</span> <span class="bp">self</span><span class="o">.</span><span class="n">_train_step</span><span class="p">(</span><span class="n">lr</span><span class="p">,</span> <span class="n">hr</span><span class="p">)</span>
+
+          <span class="nb">print</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;Step #</span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">:</span><span class="se">\n</span><span class="s2">    Generator loss     = </span><span class="si">{</span><span class="n">pl</span><span class="si">}</span><span class="se">\n</span><span class="s2">    Discriminator loss = </span><span class="si">{</span><span class="n">dl</span><span class="si">}</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+
+          <span class="c1">#Record losses in a csv log file:</span>
+          <span class="k">with</span> <span class="nb">open</span><span class="p">(</span><span class="s1">&#39;training_history/losses.csv&#39;</span><span class="p">,</span> <span class="s1">&#39;a&#39;</span><span class="p">)</span> <span class="k">as</span> <span class="n">f</span><span class="p">:</span>
+            <span class="n">f</span><span class="o">.</span><span class="n">write</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;</span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">pl</span><span class="si">}</span><span class="s2">, </span><span class="si">{</span><span class="n">dl</span><span class="si">}</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>
+
+          <span class="c1">#Save Weights every 200 steps</span>
+          <span class="k">if</span> <span class="n">step</span> <span class="o">%</span> <span class="mi">200</span> <span class="o">==</span> <span class="mi">0</span><span class="p">:</span>
+            <span class="n">discriminator</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span> <span class="sa">f</span><span class="s2">&#34;model_weights/disc/</span><span class="si">{</span><span class="n">discriminator</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_X4_SRGAN.h5&#34;</span><span class="p">)</span>
+            <span class="n">generator</span><span class="o">.</span><span class="n">save_weights</span><span class="p">(</span><span class="sa">f</span><span class="s2">&#34;model_weights/gen/</span><span class="si">{</span><span class="n">generator</span><span class="o">.</span><span class="n">name</span><span class="si">}</span><span class="s2">_X4_SRGAN-</span><span class="si">{</span><span class="n">step</span><span class="si">}</span><span class="s2">.h5&#34;</span><span class="p">)</span>
+            <span class="nb">print</span><span class="p">(</span><span class="s2">&#34;#############</span><span class="se">\n</span><span class="s2">Weights Saved</span><span class="se">\n</span><span class="s2">#############</span><span class="se">\n</span><span class="s2">&#34;</span><span class="p">)</span>    
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+        ممكن تشوف كود الـtraining بالكامل <a href="https://github.com/Ahmad-Zaki/Single_Image_Super_Resolution/blob/master/model_trainer.py">هنا</a>
+    </h4>
+    <h4>
+         وآخيرا آخر خطوة هى إننا نبدأ الـtraining:
+    </h4>
+</div>
+<div class="highlight"><div class="chroma">
+<table class="lntable"><tr><td class="lntd">
+<pre tabindex="0" class="chroma"><code><span class="lnt"> 1
+</span><span class="lnt"> 2
+</span><span class="lnt"> 3
+</span><span class="lnt"> 4
+</span><span class="lnt"> 5
+</span><span class="lnt"> 6
+</span><span class="lnt"> 7
+</span><span class="lnt"> 8
+</span><span class="lnt"> 9
+</span><span class="lnt">10
+</span><span class="lnt">11
+</span><span class="lnt">12
+</span><span class="lnt">13
+</span><span class="lnt">14
+</span><span class="lnt">15
+</span></code></pre></td>
+<td class="lntd">
+<pre tabindex="0" class="chroma"><code class="language-python" data-lang="python"><span class="k">if</span> <span class="vm">__name__</span> <span class="o">==</span> <span class="s1">&#39;__main__&#39;</span><span class="p">:</span>
+    <span class="n">data_path</span> <span class="o">=</span> <span class="sa">r</span><span class="s2">&#34;datasets/preprocessed_data/&#34;</span>
+    <span class="n">generator</span> <span class="o">=</span> <span class="n">edsr</span><span class="p">()</span>
+    <span class="n">discriminator</span> <span class="o">=</span> <span class="n">srgan_discriminator</span><span class="p">()</span>
+    <span class="n">gan</span> <span class="o">=</span> <span class="n">SrganTrainer</span><span class="p">(</span><span class="n">generator</span><span class="p">,</span>
+                       <span class="n">discriminator</span><span class="p">,</span>
+                       <span class="n">data_path</span><span class="o">=</span><span class="n">data_path</span><span class="p">,</span>
+                       <span class="n">load_all_data</span><span class="o">=</span><span class="kc">False</span><span class="p">)</span>
+
+    <span class="n">weights_path</span> <span class="o">=</span> <span class="n">gan</span><span class="o">.</span><span class="n">trainGenerator</span><span class="p">(</span><span class="n">epochs</span><span class="o">=</span><span class="mi">150</span><span class="p">,</span>
+                                      <span class="n">batch_size</span><span class="o">=</span><span class="mi">32</span><span class="p">)</span>
+
+    <span class="n">gan</span><span class="o">.</span><span class="n">train_gan</span><span class="p">(</span><span class="n">weights_path</span><span class="p">,</span>
+                  <span class="n">steps</span><span class="o">=</span><span class="mf">2e5</span><span class="p">,</span>
+                  <span class="n">batch_size</span><span class="o">=</span><span class="mi">16</span><span class="p">)</span> 
+</code></pre></td></tr></table>
+</div>
+</div><div dir="rtl" style="text-align: justify">
+    <h4>
+النتيجة النهائية للـEDSR بعد تدريبه داخل الـSRGAN موضّحة في Figure 15، لاحظ التفاصيل الإضافية الموجودة في الناتج، مع اختفاء الـblurring الواضح الى كان بيظهر في ناتج الموديل السابق.
+    </h4>
+    <p align="center">
+        <img src="/lib/img/srgan output.jpg" alt="srgan output"/>
+        <br>
+        Fig 15: SRGAN Result (middle), compared to input (left) and original image (right)
+    </p>
+    <h3>
+مقارنة بين نتائج الـmodels
+    </h3>
+    <h4>
+        الـmetrics المستخدمة في تقييم أي super resolution model هما <a href="https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio">الـPSNR</a> و<a href="https://en.wikipedia.org/wiki/Structural_similarity">الـSSIM</a>، لكن زى وضحنا سابقاً فالـPSNR الأكبر لا يعني جودة صورة أفضل، ولذلك الـpaper اعتمدت على metric جديد وهو الـmean opinion score (MOS)، وهو معتمد على تقييم الناس لنتيجة الموديل، كل مشترك بيتعرض عليه أكتر من نسخة من كل صورة لكن بدون اخباره بالموديل المستخدم في تكوينها وكل الى عليه هو اعطاء كل صورة درجة من 5.
+    </h4>
+    <h4>
+        إحنا قررنا نعمل نفس التجربة عشان نحسب الـMOS لكل موديل وعملنا استبيان شارك فيه 67 شخص، كل مشترك اعطى تقييم لأربع نسخ من كل صورة من 13 صورة استخدمناهم في الاستبيان باجمالى 871 تقييم لكل model، النسخ الموجودة من كل صورة كانت ناتجة من bicubic interpolation, EDSR, EDSR(SRGAN), والصورة الـoriginal. وكانت النتائج كالآتي:
+    </h4>
+    <p align="center">
+        <img src="/lib/img/performance results.png" alt="performance results"/>
+        <br>
+        Table 1: Models Evaluation metrics on <a href="https://uofi.box.com/shared/static/igsnfieh4lz68l926l8xbklwsnnk8we9.zip">Set14</a> and <a href="https://uofi.box.com/shared/static/kfahv87nfe8ax910l85dksyl2q212voc.zip">Set5</a>
+    </p>
+    <h4>
+        واضح من النتائج إن EDSR هو أفضل موديل من حيث الـPSNR والـSSIM، لكن تقيييمات المشاركين فضّلت ناتج الـSRGAN عليه لإن التفاصيل فيه أفضل وبالتالي كان أقرب من باقي الـmodels للصورة الأصلية. في الـfigures التالية هستعرض نواتج كل model جنب بعض للمقارنة:
+    </h4>
+    <p align="center">
+        <img src="/lib/img/SISR output 1.JPG" alt="SISR output"/>
+        <br>
+        Fig 16: Result on Painting image from Set14
+        <br>
+        <a href="https://drive.google.com/file/d/1sScoDhD3iW4peVUu7DxgNEuNsleErvf-/view?usp=sharing">View full image</a>
+    </p>
+    <br>
+    <p align="center">
+        <img src="/lib/img/SISR output 2.JPG" alt="SISR output"/>
+        <br>
+        Fig 17: Result on Zebra image from Set14
+        <br>
+        <a href="https://drive.google.com/file/d/1FVVhnDMdWIzLMbHHim-tE6EwCMIKVuiR/view?usp=sharing">View full image</a>
+    </p>
+    <br>
+    <p align="center">
+        <img src="/lib/img/SISR output 3.JPG" alt="SISR output"/>
+        <br>
+        Fig 18: Result on image 0826 from DIV2K 
+        <br>
+        <a href="https://drive.google.com/file/d/1YF9uyY48_6HOMh1ezpt_WeeaPpGU_ddb/view?usp=sharing">View full image</a>
+    </p>
+    <br>
+    <p align="center">
+        <img src="/lib/img/SISR output 4.JPG" alt="SISR output"/>
+        <br>
+        Fig 19: Result on image 0808 from DIV2K 
+        <br>
+        <a href="https://drive.google.com/file/d/1SFiBlx2ow-jxjeDMsmVUrXCv1BZOuAIB/view?usp=sharing">View full image</a>
+    </p>
+</div>
+<br>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black">
+<div dir="rtl" style="text-align: justify">
+    <b>
+    لمزيد من المعلومات:
+    </b>
+</div>
+<ul>
+<li><a href="https://arxiv.org/abs/1808.03344" target="_blank" rel="noopener noreffer">Deep Learning for Single Image Super-Resolution: A Brief Review</a></li>
+<li><a href="https://arxiv.org/abs/1501.00092" target="_blank" rel="noopener noreffer">Image Super-Resolution Using Deep Convolutional Networks</a></li>
+<li><a href="https://arxiv.org/abs/1609.04802" target="_blank" rel="noopener noreffer">Photo-Realistic Single Image Super-Resolution Using a Generative Adversarial Network</a></li>
+<li><a href="https://arxiv.org/abs/1707.02921" target="_blank" rel="noopener noreffer">Enhanced Deep Residual Networks for Single Image Super-Resolution</a></li>
+<li><a href="https://github.com/huangzehao/Super-Resolution.Benckmark" target="_blank" rel="noopener noreffer">Super-Resolution.Benckmark</a></li>
+<li><a href="https://data.vision.ee.ethz.ch/cvl/DIV2K/" target="_blank" rel="noopener noreffer">DIV2K dataset: DIVerse 2K resolution high quality images</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Peak_signal-to-noise_ratio" target="_blank" rel="noopener noreffer">Peak signal-to-noise ratio (PSNR)</a></li>
+<li><a href="https://en.wikipedia.org/wiki/Structural_similarity" target="_blank" rel="noopener noreffer">Structural Similarity Index Measure (SSIM)</a>
+<br></li>
+</ul>
+<hr style="height:0px;border:none;color:#333;border-top: 1px solid black"></div><div class="post-footer" id="post-footer">
+    <div class="post-info">
+        <div class="post-info-line">
+            <div class="post-info-mod">
+                <span>Updated on 2022-04-04</span>
+            </div>
+            <div class="post-info-license"></div>
+        </div>
+        <div class="post-info-line">
+            <div class="post-info-md"><span>
+                            <a class="link-to-markdown" href="/image-super-resolution/index.md" target="_blank">Read Markdown</a>
+                        </span></div>
+            <div class="post-info-share">
+                <span><a href="javascript:void(0);" title="Share on Twitter" data-sharer="twitter" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-title="Image Super-Resolution" data-hashtags="Deep Learning,GAN,Generative Adversarial Networks,Keras,Tensorflow,Super Resolution,Content Loss,Generator,Discriminator,Image Processing,SRGAN,SRRESNET,EDSR"><i class="fab fa-twitter fa-fw"></i></a><a href="javascript:void(0);" title="Share on Facebook" data-sharer="facebook" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-hashtag="Deep Learning"><i class="fab fa-facebook-square fa-fw"></i></a><a href="javascript:void(0);" title="Share on Linkedin" data-sharer="linkedin" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/"><i class="fab fa-linkedin fa-fw"></i></a><a href="javascript:void(0);" title="Share on WhatsApp" data-sharer="whatsapp" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-title="Image Super-Resolution" data-web><i class="fab fa-whatsapp fa-fw"></i></a><a href="javascript:void(0);" title="Share on Line" data-sharer="line" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-title="Image Super-Resolution"><i data-svg-src="/lib/simple-icons/icons/line.min.svg"></i></a><a href="javascript:void(0);" title="Share on Myspace" data-sharer="myspace" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-title="Image Super-Resolution" data-description=""><i data-svg-src="/lib/simple-icons/icons/myspace.min.svg"></i></a><a href="javascript:void(0);" title="Share on Blogger" data-sharer="blogger" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-title="Image Super-Resolution" data-description=""><i class="fab fa-blogger fa-fw"></i></a><a href="javascript:void(0);" title="Share on Evernote" data-sharer="evernote" data-url="https://Ahmad-Zaki.github.io/image-super-resolution/" data-title="Image Super-Resolution"><i class="fab fa-evernote fa-fw"></i></a></span>
+            </div>
+        </div>
+    </div>
+
+    <div class="post-info-more">
+        <section class="post-tags"><i class="fas fa-tags fa-fw"></i>&nbsp;<a href="/tags/deep-learning/">Deep Learning</a>,&nbsp;<a href="/tags/gan/">GAN</a>,&nbsp;<a href="/tags/generative-adversarial-networks/">Generative Adversarial Networks</a>,&nbsp;<a href="/tags/keras/">Keras</a>,&nbsp;<a href="/tags/tensorflow/">Tensorflow</a>,&nbsp;<a href="/tags/super-resolution/">Super Resolution</a>,&nbsp;<a href="/tags/content-loss/">Content Loss</a>,&nbsp;<a href="/tags/generator/">Generator</a>,&nbsp;<a href="/tags/discriminator/">Discriminator</a>,&nbsp;<a href="/tags/image-processing/">Image Processing</a>,&nbsp;<a href="/tags/srgan/">SRGAN</a>,&nbsp;<a href="/tags/srresnet/">SRRESNET</a>,&nbsp;<a href="/tags/edsr/">EDSR</a></section>
+        <section>
+            <span><a href="javascript:void(0);" onclick="window.history.back();">Back</a></span>&nbsp;|&nbsp;<span><a href="/">Home</a></span>
+        </section>
+    </div>
+
+    <div class="post-nav"><a href="/%D9%83%D9%8A%D9%81-%D9%8A%D8%B9%D9%85%D9%84-naive-bayes-classifier/" class="prev" rel="prev" title="؟Naive Bayes Classifier كيف يعمل"><i class="fas fa-angle-left fa-fw"></i>؟Naive Bayes Classifier كيف يعمل</a></div>
+</div>
+<div id="comments"></div></article></div>
+            </main><footer class="footer">
+        <div class="footer-container"><div class="footer-line">Powered by <a href="https://gohugo.io/" target="_blank" rel="noopener noreffer" title="Hugo 0.90.0">Hugo</a> | Theme - <a href="https://github.com/dillonzq/LoveIt" target="_blank" rel="noopener noreffer" title="LoveIt 0.2.10"><i class="far fa-kiss-wink-heart fa-fw"></i> LoveIt</a>
+                </div><div class="footer-line"><i class="far fa-copyright fa-fw"></i><span itemprop="copyrightYear">2021 - 2022</span><span class="author" itemprop="copyrightHolder">&nbsp;<a href="/" target="_blank">Ahmad Zaki</a></span>&nbsp;|&nbsp;<span class="license"><a rel="license external nofollow noopener noreffer" href="https://creativecommons.org/licenses/by-nc/4.0/" target="_blank">CC BY-NC 4.0</a></span></div>
+        </div>
+    </footer></div>
+
+        <div id="fixed-buttons"><a href="#" id="back-to-top" class="fixed-button" title="Back to Top">
+                <i class="fas fa-arrow-up fa-fw"></i>
+            </a><a href="#" id="view-comments" class="fixed-button" title="View Comments">
+                <i class="fas fa-comment fa-fw"></i>
+            </a>
+        </div><link rel="stylesheet" href="/lib/katex/katex.min.css"><link rel="stylesheet" href="/lib/katex/copy-tex.min.css"><link rel="stylesheet" href="/lib/cookieconsent/cookieconsent.min.css"><script type="text/javascript" src="/lib/smooth-scroll/smooth-scroll.min.js"></script><script type="text/javascript" src="/lib/autocomplete/autocomplete.min.js"></script><script type="text/javascript" src="/lib/lunr/lunr.min.js"></script><script type="text/javascript" src="/lib/lazysizes/lazysizes.min.js"></script><script type="text/javascript" src="/lib/clipboard/clipboard.min.js"></script><script type="text/javascript" src="/lib/sharer/sharer.min.js"></script><script type="text/javascript" src="/lib/typeit/typeit.min.js"></script><script type="text/javascript" src="/lib/katex/katex.min.js"></script><script type="text/javascript" src="/lib/katex/auto-render.min.js"></script><script type="text/javascript" src="/lib/katex/copy-tex.min.js"></script><script type="text/javascript" src="/lib/katex/mhchem.min.js"></script><script type="text/javascript" src="/lib/cookieconsent/cookieconsent.min.js"></script><script type="text/javascript">window.config={"code":{"copyTitle":"Copy to clipboard","maxShownLines":50},"comment":{},"cookieconsent":{"content":{"dismiss":"Got it!","link":"Learn more","message":"This website uses Cookies to improve your experience."},"enable":true,"palette":{"button":{"background":"#f0f0f0"},"popup":{"background":"#1aa3ff"}},"theme":"edgeless"},"data":{"id-1":"Something I Learned","id-2":"Something I Learned"},"math":{"delimiters":[{"display":true,"left":"$$","right":"$$"},{"display":true,"left":"\\[","right":"\\]"},{"display":false,"left":"$","right":"$"},{"display":false,"left":"\\(","right":"\\)"}],"strict":false},"search":{"highlightTag":"em","lunrIndexURL":"/index.json","maxResultLength":10,"noResultsFound":"No results found","snippetLength":30,"type":"lunr"},"typeit":{"cursorChar":"|","cursorSpeed":1000,"data":{"id-1":["id-1"],"id-2":["id-2"]},"duration":-1,"speed":100}};</script><script type="text/javascript" src="/js/theme.min.js"></script></body>
+</html>
