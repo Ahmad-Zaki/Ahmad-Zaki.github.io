@@ -4,7 +4,18 @@
         <link>https://Ahmad-Zaki.github.io/tags/keras/</link>
         <description>Keras - Tag - Something I learned</description>
         <generator>Hugo -- gohugo.io</generator><language>en</language><managingEditor>ahmadheshamzaki@gmail.com (Ahmad Zaki)</managingEditor>
-            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/tags/keras/" rel="self" type="application/rss+xml" /><item>
+            <webMaster>ahmadheshamzaki@gmail.com (Ahmad Zaki)</webMaster><lastBuildDate>Mon, 04 Apr 2022 03:12:33 &#43;0200</lastBuildDate><atom:link href="https://Ahmad-Zaki.github.io/tags/keras/" rel="self" type="application/rss+xml" /><item>
+    <title>Image Super-Resolution</title>
+    <link>https://Ahmad-Zaki.github.io/image-super-resolution/</link>
+    <pubDate>Mon, 04 Apr 2022 03:12:33 &#43;0200</pubDate>
+    <author>Author</author>
+    <guid>https://Ahmad-Zaki.github.io/image-super-resolution/</guid>
+    <description><![CDATA[<div dir="rtl" style="text-align: justify">
+    <h4>
+        Image Super-resolution (SR) هو الإسم المتداول لعملية تحويل الصورة من Low resolution إلى high resolution عن طريق زيادة عدد الـpixels في الصورة بحيث تحافظ على التفاصيل الموجودة فيها، وهي من أكثر التقنيات أهمية في مجال الـImage processing والـcomputer vision وتدخل في العديد من التطبيقات في الواقع زي تحسين الصور الطبية (Medical Imaging) وصور الأقمار الصناعية وكاميرات المراقبة الـlive-streaming وغيرها الكثير.
+    </h4>
+</div>]]></description>
+</item><item>
     <title>؟Vanishing gradientsكيف نتعامل مع مشكلة الـ</title>
     <link>https://Ahmad-Zaki.github.io/%D9%83%D9%8A%D9%81-%D9%86%D8%AA%D8%B9%D8%A7%D9%85%D9%84-%D9%85%D8%B9-%D9%85%D8%B4%D9%83%D9%84%D8%A9-%D8%A7%D9%84%D9%80vanishing-gradients/</link>
     <pubDate>Tue, 14 Dec 2021 16:46:33 &#43;0200</pubDate>
